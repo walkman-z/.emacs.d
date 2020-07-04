@@ -30,8 +30,26 @@
 (require 'init-packages)
 (require 'init-git)
 
+;; 对应括号及彩虹高亮
+
+;;;已自带
+;;;(use-package show-paren-mode)
+
+(use-package rainbow-delimiters
+  :init
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'prog-mode-hook #'show-paren-mode)
+  )
+
+
+;; (use-package clang-format)
+;; (global-set-key (kbd "C-c C-f") 'clang-format-region)
 
 (when (file-exists-p custom-file)
   (load-file custom-file))
+
+
+
+
 
 (provide 'init)
