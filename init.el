@@ -28,7 +28,7 @@
 (require 'init-company)
 (require 'init-check)
 (require 'init-packages)
-
+(require 'init-git)
 
 
 (when (file-exists-p custom-file)
