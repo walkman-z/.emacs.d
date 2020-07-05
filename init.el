@@ -22,7 +22,6 @@
 (require 'init-ui)
 
 
-
 ;(require 'init-lsp)
 (require 'init-tex)
 (require 'init-company)

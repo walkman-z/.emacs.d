@@ -1,4 +1,7 @@
 
+
+;;取消出错时响铃
+(setq visible-bell t)
 ;;终端下允许使用鼠标
 
 (xterm-mouse-mode 1)
