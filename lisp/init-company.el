@@ -21,6 +21,12 @@
 		company-begin-commands '(self-insert-command)))
 
 
-(use-package yasnippet)
+(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  (use-package yasnippet-snippets)
+  )
 
 (provide 'init-company)
+
+;;; init-company ends here

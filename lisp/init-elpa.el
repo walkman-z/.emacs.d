@@ -1,8 +1,8 @@
 
 ;;设置软件源				;
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                            ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-			                      ("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+			 ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+			 ("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 ;;不检查校验签名
 (setq package-check-signature nil)
 
@@ -18,17 +18,13 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-
 ;;usepackage
-
 
 (setq use-package-always-ensure t
        use-package-always-defer t
        use-package-always-demand nil
        use-package-expand-minimally t
        use-package-verbose t)
-
-
 
 (require 'use-package)
 
