@@ -51,6 +51,7 @@
   :config (which-key-mode)
   )
 
+
 (provide 'init-ivy)
 
 ;;; init-ivy.el ends here

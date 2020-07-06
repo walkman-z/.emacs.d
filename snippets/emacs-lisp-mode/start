@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: start
+# key: sts
+# --
+;;; init${1:}.el
+;;; Commentary:${2:}
+;;; Code:${3:}
+${0:}

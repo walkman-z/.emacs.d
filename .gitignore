@@ -7,3 +7,5 @@ recentf
 transient
 *.elc
 bookmarks
+smex-items
+rime

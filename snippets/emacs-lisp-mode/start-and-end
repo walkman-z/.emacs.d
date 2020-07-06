@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: start-and-end
+# key: sted
+# --
+;;; ${1:file}.el --- Summary
+;;; Commentary:${2:}
+;;; Code:${3:}
+
+$0
+
+(provide '$1)
+
+;;; $1.el ends here

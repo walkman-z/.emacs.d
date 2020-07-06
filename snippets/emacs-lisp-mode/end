@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: end
+# key: eds
+# --
+;;; init${0}.el ends here

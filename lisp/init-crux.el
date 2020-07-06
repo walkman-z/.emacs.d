@@ -30,9 +30,12 @@
 	 ("C-c d" . hungry-delete-forward)
 	 ))
 
-(use-package drag-stuff
-  :bind (("<M-up>" . drag-stuff-up)
-	 ("<M-down>" . drag-stuff-down)))
+;; (use-package drag-stuff
+;;   :bind (("<M-up>" . drag-stuff-up)
+;; 	 ("<M-down>" . drag-stuff-down)))
+
+
+
 
 (provide 'init-crux)
 ;;; init-crux ends here
