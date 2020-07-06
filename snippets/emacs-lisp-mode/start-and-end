@@ -2,9 +2,9 @@
 # name: start-and-end
 # key: sted
 # --
-;;; ${1:file}.el --- Summary
-;;; Commentary:${2:}
-;;; Code:${3:}
+;;; ${1:file}.el --- ${2:}
+;;; Commentary:${3:}
+;;; Code:${4:}
 
 $0
 
