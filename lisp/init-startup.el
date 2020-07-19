@@ -10,7 +10,11 @@
       make-backup-files nil) 
 ;;yes/no取代
 (defalias 'yes-or-no-p 'y-or-n-p)
+;; 
 
+
+;; save workspace when 
+(desktop-save-mode 1)
 
 ;; Adjust garbage collection thresholds during startup
 ;; 垃圾回收阈值设为最大，百分比设为0.5

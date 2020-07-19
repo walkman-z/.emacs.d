@@ -10,7 +10,9 @@
 ;;设置相对行号
 ;(setq display-line-numbers-type 'relative)
 
-
+;; 侧边栏
+(use-package treemacs)
+(treemacs)
 
 ;;主题
 (use-package gruvbox-theme

@@ -3,7 +3,7 @@
 
 (use-package crux
   :bind (("C-c RET" . crux-smart-open-line-above)
-	 ("C-k" . crux-smart-kill-line)
+	 ;; ("C-k" . crux-smart-kill-line)
 	 ("C-a" . crux-move-beginning-of-line)
 	 
 	 ;("C-c ^" . crux-top-join-line)

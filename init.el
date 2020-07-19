@@ -20,6 +20,11 @@
 (require 'init-startup)
 (require 'init-elpa)			;软件源及包管理器初始化
 
+
+
+
+
+
 (require 'init-ui)
 (require 'init-company)
 (require 'init-check)
@@ -28,16 +33,35 @@
 (require 'init-git)
 (require 'init-packages)
 
+
 (require 'init-avy)
 (require 'init-tex)
 (require 'init-paren)
 (require 'init-program)
 
-(require 'init-rime)
+(require 'init-org)
+;; (require 'init-rime)
 (require 'init-translate)
+
+;; (auto-insert-mode)
+;; (setq auto-insert-directory "~/.emacs.d/template/")
+;; (setq auto-insert-query nil)
+;; (setq auto-insert-alist
+;;       (append '(c-mode . template.c)
+;; 	      auto-insert-alist))
+
+;; (use-package file-template)
+
 
 (when (file-exists-p custom-file)
   (load-file custom-file))
+
+;; (use-package indent-guide
+;;   :config
+;;   (setq indent-guide-reverse t)
+;;   (setq indent-guide-char ":")
+;;   (indent-guide-global-mode))
+
 
 (provide 'init)
 ;;; init.el ends here

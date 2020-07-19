@@ -10,3 +10,7 @@ bookmarks
 smex-items
 rime
 session.*
+url
+.cache/
+.emacs*
+.session
