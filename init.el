@@ -8,6 +8,8 @@
 
 ;; Produce backtraces when errors occur: can be helpful to diagnose startup issues
 
+
+
 (add-to-list 'load-path
 	     (expand-file-name (concat user-emacs-directory "lisp")))
 
@@ -23,8 +25,6 @@
 
 
 
-
-
 (require 'init-ui)
 (require 'init-company)
 (require 'init-check)
@@ -33,7 +33,7 @@
 (require 'init-git)
 (require 'init-packages)
 
-
+(require 'init-iedit)
 (require 'init-avy)
 (require 'init-tex)
 (require 'init-paren)

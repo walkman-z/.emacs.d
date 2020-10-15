@@ -13,9 +13,10 @@
   (add-hook 'prog-mode-hook #'show-paren-mode)	  ;高亮显示括号
   (add-hook 'prog-mode-hook #'electric-pair-mode) ;括号自动补全
   )
-;; (setq electric-pair-pairs '((?\" . ?\")
-;; 			    (?\( . ?\))
-;; 			    (?\{ . ?\})))
+(setq electric-pair-pairs '((?\" . ?\")
+			    (?\( . ?\))
+			    (?\{ . ?\})))
 
 (provide 'init-paren)
 ;;; init-paren.el ends here
+

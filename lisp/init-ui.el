@@ -11,8 +11,11 @@
 ;(setq display-line-numbers-type 'relative)
 
 ;; 侧边栏
-(use-package treemacs)
-(treemacs)
+;; (use-package treemacs)
+;; (treemacs)
+
+
+
 
 ;;主题
 (use-package gruvbox-theme
@@ -39,9 +42,9 @@
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 14.5))))
   (when *is-linux*
-    (set-face-attribute 'default nil :font "SF Mono 13")
+    (set-face-attribute 'default nil :font "SF Mono 12")
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 13.5)))))
+      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20)))))
 
 
 
