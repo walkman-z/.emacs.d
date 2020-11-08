@@ -42,6 +42,7 @@
 (require 'init-org)
 ;; (require 'init-rime)
 (require 'init-translate)
+(require 'init-keyfreq)
 
 ;; (auto-insert-mode)
 ;; (setq auto-insert-directory "~/.emacs.d/template/")

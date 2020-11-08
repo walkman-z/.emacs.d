@@ -47,7 +47,9 @@
       (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20)))))
 
 
-
+(use-package hl-line
+  :ensure nil
+  :hook (after-init . global-hl-line-mode))
 
 
 

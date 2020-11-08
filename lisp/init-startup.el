@@ -4,7 +4,10 @@
 (setq visible-bell t)
 ;;终端下允许使用鼠标
 
-(xterm-mouse-mode 1)
+
+;; (xterm-mouse-mode 1)
+
+
 ;;关闭自动保存
 (setq auto-save-default nil
       make-backup-files nil) 
@@ -14,7 +17,9 @@
 
 
 ;; save workspace when 
-(desktop-save-mode 1)
+(use-package saveplace
+  :ensure nil
+  :hook (after-init . save-place-mode))
 
 ;; Adjust garbage collection thresholds during startup
 ;; 垃圾回收阈值设为最大，百分比设为0.5
