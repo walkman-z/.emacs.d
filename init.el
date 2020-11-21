@@ -16,13 +16,13 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 
+
+(require 'init-elpa)			;软件源及包管理器初始化
+
 (require 'init-const)
 (require 'init-kbd)
 (require 'init-unicode)
 (require 'init-startup)
-(require 'init-elpa)			;软件源及包管理器初始化
-
-
 
 
 (require 'init-ui)
@@ -48,6 +48,7 @@
 ;; (require 'init-rime)
 (require 'init-translate)
 (require 'init-keyfreq)
+
 
 ;; (auto-insert-mode)
 ;; (setq auto-insert-directory "~/.emacs.d/template/")

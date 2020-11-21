@@ -12,17 +12,17 @@
     (lambda () (setq truncate-lines nil)))
 (add-hook 'org-mode-hook
 	  'org-indent-mode)
+
+
+
+;; (require 'org-tempo)
+
+
+;; (require 'org-download)
+;; (add-hook 'dired-mode-hook
+;; 	  'org-download-enable)
 ;; (add-hook 'org-mode-hook
-;; 	  'org-num-mode)
-
-(require 'org-tempo)
-
-
-(require 'org-download)
-(add-hook 'dired-mode-hook
-	  'org-download-enable)
-(add-hook 'org-mode-hook
-          #'org-download-enable)
+;;           #'org-download-enable)
 
 
 
@@ -40,6 +40,7 @@
 ;; (add-hook 'org-mode-hook #'valign-mode)
 
 ;; (add-hook 'org-mode-hook #'valign-mode)
+
 (provide 'init-org)
 
 ;;; init-org.el ends here

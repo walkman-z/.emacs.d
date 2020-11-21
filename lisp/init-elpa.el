@@ -36,14 +36,15 @@
 (require 'use-package)
 
 
-(unless (package-installed-p 'quelpa)
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
-    (eval-buffer)
-    (quelpa-self-upgrade)))
+
+;; (unless (package-installed-p 'quelpa)
+;;   (with-temp-buffer
+;;     (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+;;     (eval-buffer)
+;;     (quelpa-self-upgrade)))
 
 
-(require 'quelpa)
-(require 'quelpa-use-package)
-(add-to-list 'load-path "~/.emacs.d/quelpa/packages/")
+;; (require 'quelpa)
+;; (require 'quelpa-use-package)
+;; (add-to-list 'load-path "~/.emacs.d/quelpa/packages/")
 (provide 'init-elpa)

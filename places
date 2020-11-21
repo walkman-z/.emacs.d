@@ -1,2 +1,12 @@
 ;;; -*- coding: utf-8 -*-
-nil
+(("/home/walkman/.emacs.d/lisp/init-org.el" . 513)
+ ("/home/walkman/gtd/tickler.org" . 61)
+ ("/home/walkman/.emacs.d/lisp/init-org-gtd.el" . 788)
+ ("/home/walkman/gtd/inbox.org" . 50)
+ ("/home/walkman/.emacs.d/lisp/init-org-roam.el" . 1271)
+ ("/home/walkman/org-roam/20201116010328-emacs_org.org" . 938)
+ ("/home/walkman/org-roam/20201116010811-org_mode.org" . 474)
+ ("/home/walkman/.emacs.d/init.el" . 907)
+ ("/home/walkman/.emacs.d/lisp/init-ui.el" . 423)
+ ("/home/walkman/.emacs.d/recentf" . 1188)
+ ("/home/walkman/.emacs.d/elpa/flatui-theme-20160619.127/flatui-theme-autoloads.el" . 582))

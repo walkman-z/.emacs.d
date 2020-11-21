@@ -17,9 +17,12 @@
 
 
 
-;;主题
-(use-package gruvbox-theme
-  :init (load-theme 'gruvbox-dark-soft t))
+;; ;;主题
+;; (use-package gruvbox-theme
+;;   :init (load-theme 'gruvbox-dark-soft t))
+
+(use-package flatui-theme
+  :init (load-theme 'flatui t))
 
 (use-package smart-mode-line
   :init
@@ -34,13 +37,13 @@
   ;; (setq default-frame-alist '((width . 150) (height . 35)))
   ;(set-frame-parameter nil 'fullscreen 'maximized)
   (when *is-windows*
-    (set-face-attribute 'default nil :font "Ubuntu Mono 10")
+    (set-face-attribute 'default nil :font "Consolas 15")
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 10.5))))
+      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
   (when *is-mac*
-    (set-face-attribute 'default nil :font "Ubuntu Mono 14")
+    (set-face-attribute 'default nil :font "SF Mono 15")
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 14.5))))
+      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
   (when *is-linux*
     (set-face-attribute 'default nil :font "SF Mono 12")
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
