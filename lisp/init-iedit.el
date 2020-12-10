@@ -79,7 +79,8 @@
                          (size-indication-mode))))
 
 
-
+(use-package undo-tree)
+(global-undo-tree-mode)
 
 
 (provide 'init-iedit)
