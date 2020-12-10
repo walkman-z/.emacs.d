@@ -21,8 +21,8 @@
 ;; (use-package gruvbox-theme
 ;;   :init (load-theme 'gruvbox-dark-soft t))
 
-(use-package flatui-theme
-  :init (load-theme 'flatui t))
+; (use-package flatui-theme
+;   :init (load-theme 'flatui t))
 
 (use-package smart-mode-line
   :init

@@ -24,8 +24,6 @@
 (require 'init-unicode)
 (require 'init-startup)
 
-
-(require 'init-ui)
 (require 'init-company)
 (require 'init-check)
 (require 'init-crux)
@@ -41,13 +39,13 @@
 
 ;; org-mode
 (require 'init-org)
-(require 'init-org-gtd)
-(require 'init-org-roam)
+; (require 'init-org-gtd)
+; (require 'init-org-roam)
 
 
 ;; (require 'init-rime)
 (require 'init-translate)
-(require 'init-keyfreq)
+; (require 'init-keyfreq)
 
 
 ;; (auto-insert-mode)
@@ -58,6 +56,9 @@
 ;; 	      auto-insert-alist))
 
 ;; (use-package file-template)
+
+
+(require 'init-ui)
 
 
 (when (file-exists-p custom-file)
