@@ -79,8 +79,14 @@
                          (size-indication-mode))))
 
 
-(use-package undo-tree)
-(global-undo-tree-mode)
+(use-package undo-tree
+  :init
+  (global-undo-tree-mode)
+  :config
+  (setq undo-tree-visualizer-diff 1)
+  (setq undo-tree-visualizer-timestamps 1)
+  )
+
 
 
 (provide 'init-iedit)

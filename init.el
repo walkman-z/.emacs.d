@@ -40,7 +40,7 @@
 ;; org-mode
 (require 'init-org)
 ; (require 'init-org-gtd)
-; (require 'init-org-roam)
+(require 'init-org-roam)
 
 
 ;; (require 'init-rime)
@@ -60,7 +60,7 @@
 
 ;; ui set
 (require 'init-ui)
-
+(require 'init-window)
 
 (when (file-exists-p custom-file)
   (load-file custom-file))
