@@ -15,7 +15,7 @@
 
 
 
-;; (require 'org-tempo)
+(require 'org-tempo)
 
 
 ;; (require 'org-download)
