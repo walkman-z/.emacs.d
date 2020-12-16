@@ -45,9 +45,10 @@
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
   (when *is-linux*
-    (set-face-attribute 'default nil :font "SF Mono 12")
+    (set-face-attribute 'default nil :font "Consolas 15")
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20)))))
+      (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+  )
 
 
 (use-package hl-line
