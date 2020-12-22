@@ -3,6 +3,7 @@
 ;;; Code:
 
 
+
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -13,6 +14,22 @@
 (add-hook 'org-mode-hook
 	  'org-indent-mode)
 
+
+(org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (C . t)
+        ;; (java . t)
+        ;; (js . t)
+        ;; (ruby . t)
+        ;; (ditaa . t)
+        ;; (python . t)
+        (shell . t)
+        (latex . t)
+        ;; (plantuml . t)
+        ;; (R . t)
+	)
+      )
 
 
 (require 'org-tempo)

@@ -8,9 +8,9 @@
 
 
 ;; sql可执行文件
-(if *is-windows*
-    (add-to-list 'exec-path "D:\sql\sqlite-tools-win32-x86-3340000"))
-(executable-find "sqlite3")
+;; (if *is-windows*
+    ;; (add-to-list 'exec-path "D:\sql\sqlite-tools-win32-x86-3340000"))
+;; (executable-find "sqlite3")
 
 ;; org-roam 路径
 ;; (make-directory "~/org-roam")

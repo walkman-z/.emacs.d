@@ -3,7 +3,9 @@
 ;;   :bind ("C-i" . iedit-mode))
 
 
-
+;; 自动保存作区
+(desktop-save-mode 1)
+(setq desktop-save t)
 
 ;;鼠标滚轮设置字体大小
 (global-set-key [C-wheel-up] 'text-scale-increase)

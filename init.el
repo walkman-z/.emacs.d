@@ -39,12 +39,12 @@
 
 ;; org-mode
 (require 'init-org)
-; (require 'init-org-gtd)
-(require 'init-org-roam)
+;; (require 'init-org-gtd)
+;; (require 'init-org-roam)
 
 
-;; (require 'init-rime)
-(require 'init-translate)
+(require 'init-rime)
+;; (require 'init-translate)
 ; (require 'init-keyfreq)
 
 
