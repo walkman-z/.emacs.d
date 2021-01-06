@@ -22,13 +22,13 @@
 (require 'init-const)
 (require 'init-kbd)
 (require 'init-unicode)
-(require 'init-startup)
+(require 'init-startup)					;
 
 (require 'init-company)
 (require 'init-check)
 (require 'init-crux)
 (require 'init-ivy)
-(require 'init-git)
+(require 'init-git)    
 (require 'init-packages)
 
 (require 'init-iedit)
@@ -37,13 +37,18 @@
 (require 'init-paren)
 (require 'init-program)
 
+(require 'init-c)
+
 ;; org-mode
 (require 'init-org)
 ;; (require 'init-org-gtd)
 ;; (require 'init-org-roam)
 
 
-(require 'init-rime)
+;; linux 
+(if *is-linux*
+    (require 'init-rime))
+
 ;; (require 'init-translate)
 ; (require 'init-keyfreq)
 
@@ -73,6 +78,6 @@
 
 
 (provide 'init)
-;;; init.el ends here
+;; ;;; init.el ends here
 
 

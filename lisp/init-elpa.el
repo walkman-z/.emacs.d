@@ -6,18 +6,18 @@
 
 (setq package-archives '(("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
                          ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
-                         ("melpa-stable" . "https://mirrors.ustc.edu.cn/elpa/melpa-stable/")
+                         ;; ("melpa-stable" . "https://mirrors.ustc.edu.cn/elpa/melpa-stable/")
                          ("org" . "https://mirrors.ustc.edu.cn/elpa/org/")))
 
 
 ;;不检查校验签名
-(setq package-check-signature nil)
+;; (setq package-check-signature nil)
 
 
 ;;初始化包管理器
 (unless (bound-and-true-p package--initialized)
   (package-initialize))
-;;刷新软件源索引
+;;刷新软件源索引				;
 (unless package-archive-contents
   (package-refresh-contents))
 

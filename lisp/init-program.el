@@ -26,15 +26,7 @@
 
 
 
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-  (defun C-save-hooks ()
-  (add-hook 'before-save-hook #'eglot-format-buffer))
-  :hook
-  ((c-mode c++-mode) . eglot-ensure)
-  ((c-mode c++-mode) . C-save-hooks)
-  )
+
 
 
 (provide 'init-program)

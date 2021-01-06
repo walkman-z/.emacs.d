@@ -31,10 +31,11 @@
 	)
       )
 
-
 (require 'org-tempo)
 
-
+(use-package valign)
+(add-hook 'org-mode-hook #'valign-mode)
+(setq valign-fancy-bar 1)
 ;; (require 'org-download)
 ;; (add-hook 'dired-mode-hook
 ;; 	  'org-download-enable)

@@ -7,8 +7,10 @@
 (use-package rime
   :custom
   (default-input-method "rime")
-  ;; (rime-librime-root "~/.emacs.d/librime/dist")
+  ;; (rime-librime-root "~/.emacs.d/librime/build")
   )
+
+;; (setq module-file-suffix ".so")
 ;; 用户RIME 配置文件所在地
 (setq rime-user-data-dir "~/.config/fcitx/rime")
 
@@ -35,7 +37,7 @@
             :internal-border-width 10))
 ;; 发送给RIME 的快捷键
 (setq rime-translate-keybindings
-      '("C-f" "C-b" "C-n" "C-p" "C-g" "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>" "<tab>" "Shift_L" "Shift_R"))
+      '("C-f" "C-b" "C-n" "C-p" "C-g" "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>" ))
 
 
 ;; 设置横版显示 候选
@@ -84,14 +86,14 @@
 ;; 临时英文模式
 ;; emacs 中指定临时切换inline ascii模式
 ;; (setq rime-inline-ascii-trigger 'shift-l)
-(define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
+;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
 
 
 ;; 临时英文中阻止标点直接上屏
 (setq rime-inline-ascii-holder ?x)
 
 ;; 临时强制使用强制中文模式
-;; (define-key rime-mode-map (kbdC-`") 'rime-force-enable)
+;; (define-key rime-mode-map (kbd"C-`") 'rime-force-enable)
 
 
 (provide 'init-rime)

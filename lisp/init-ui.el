@@ -7,8 +7,8 @@
 (set-default 'cursor-type 'bar)
 ;;显示行号
 (global-display-line-numbers-mode 1)
-;;设置相对行号
-;(setq display-line-numbers-type 'relative)
+
+(setq display-line-numbers-width-start t)
 
 ;; 侧边栏
 ;; (use-package treemacs)
@@ -18,9 +18,9 @@
 
 
 
-;; ;;主题
-;; (use-package gruvbox-theme
-;;   :init (load-theme 'gruvbox-dark-soft t))
+;;主题
+(use-package flatui-theme
+  :init (load-theme 'flatui t))
 
 
 

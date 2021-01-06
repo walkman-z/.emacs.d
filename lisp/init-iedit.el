@@ -3,7 +3,7 @@
 ;;   :bind ("C-i" . iedit-mode))
 
 
-;; 自动保存作区
+;; 自动保工作区
 (desktop-save-mode 1)
 (setq desktop-save t)
 
@@ -49,8 +49,9 @@
   :ensure nil
   :hook (after-init . show-paren-mode)
   :config
-  (setq show-paren-when-point-inside-paren t
+  (setq show-paren-when-point-inside-paren nil
         show-paren-when-point-in-periphery t))
+
 
 
 ;;新的注释函数
@@ -80,7 +81,7 @@
                          (column-number-mode)
                          (size-indication-mode))))
 
-
+;; 可视化undotree
 (use-package undo-tree
   :init
   (global-undo-tree-mode)
@@ -89,6 +90,28 @@
   (setq undo-tree-visualizer-timestamps 1)
   )
 
+;; 可视化 diff
+(use-package diff-hl
+  :init
+  (global-diff-hl-mode))
+
+;; kill-ring 
+(use-package browse-kill-ring)
+
+(global-set-key [(meta ?/)] 'hippie-expand)
+
+(setq hippie-expand-try-functions-list 
+      '(try-expand-dabbrev
+	try-expand-dabbrev-visible
+	try-expand-dabbrev-all-buffers
+	try-expand-dabbrev-from-kill
+	try-complete-file-name-partially
+	try-complete-file-name
+	try-expand-all-abbrevs
+	try-expand-list
+	try-expand-line
+	try-complete-lisp-symbol-partially
+	try-complete-lisp-symbol))
 
 
 (provide 'init-iedit)
