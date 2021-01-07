@@ -18,4 +18,23 @@
   (set-selection-coding-system 'utf-16-le)
   (set-clipboard-coding-system 'utf-16-le))
 
+
+(defun dos2unix ()
+  "Convert the current buffer to UNIX file format."
+  (interactive)
+  (set-buffer-file-coding-system 'undecided-unix nil))
+
+(defun unix2dos ()
+  "Convert the current buffer to DOS file format."
+  (interactive)
+  (set-buffer-file-coding-system 'undecided-dos nil))
+
+(if (or *is-linux*
+	*is-mac*)
+    (add-hook 'before-save-hook 'dos2unix))
+(if *is-windows*
+    (add-hook 'before-save-hook 'unix2dos))
+
+
 (provide 'init-unicode)
+

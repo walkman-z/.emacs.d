@@ -43,7 +43,7 @@
 ;;           #'org-download-enable)
 
 
-
+(use-package org-download)
 
 
 
