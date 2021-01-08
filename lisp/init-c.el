@@ -2,12 +2,9 @@
 
 (use-package smart-compile)
 
-(defun my-g++-compile-and-run ()
-  (interactive)
-  (compile (format "g++ %s && ./a.out" (buffer-file-name))))
 
-;; (define-key c++-mode-map (kbd "<f5>") #'my-g++-compile-and-run)
-(global-set-key (kbd "<f5>") #'my-g++-compile-and-run)
+;; (define-key c++-mode-map (kbd "<f5>") 'smart-compile)
+
 
 (use-package eglot
   :config
