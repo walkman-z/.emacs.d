@@ -9,10 +9,17 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 
 
+
+(server-start)
+(require 'org-protocol)
+
+
 (add-hook 'org-mode-hook
     (lambda () (setq truncate-lines nil)))
 (add-hook 'org-mode-hook
 	  'org-indent-mode)
+(add-hook 'org-mode-hook
+	  (lambda () (display-line-numbers-mode -1)))
 
 
 (org-babel-do-load-languages
@@ -36,29 +43,61 @@
 (use-package valign)
 (add-hook 'org-mode-hook #'valign-mode)
 (setq valign-fancy-bar 1)
-;; (require 'org-download)
-;; (add-hook 'dired-mode-hook
-;; 	  'org-download-enable)
-;; (add-hook 'org-mode-hook
-;;           #'org-download-enable)
-
-
-(use-package org-download)
 
 
 
+;; (use-package org-download)
 
-;; (quelpa '(valign :fetcher github :repo "casouri/valign"))
-;; (use-package valign
-;;   :quelpa (valign :fetcher github :repo "casouri/valign")
-;;   :ensure t
-;;   :config
-;;   (add-hook 'org-mode-hook #'valign-mode))
-;; (require 'valign)
-;; (add-hook 'org-mode-hook #'valign-mode)
+;; 禁止点击打开链接 (C-c C-o 可以)
+(defun org-open-at-mouse nil)
 
-;; (add-hook 'org-mode-hook #'valign-mode)
 
+
+
+;; org-capture
+(setq org-capture-templates nil)
+
+
+(add-to-list 'org-capture-templates '("p" "Protocol"))
+(add-to-list 'org-capture-templates
+             '("pb" "Protocol Bookmarks" entry
+               (file+headline "~/.notes/bookmark.org" "wait")
+               "* %U - %:annotation" :immediate-finish t :kill-buffer t))
+
+
+(setq org-capture-templates '(
+			      ;; 随笔
+			      ("j" "Journal" plain
+			       (file+datetree "~/.notes/journal.org")
+			       "%?")
+			      ;; 待办
+			      ("i" "inbox:")
+			      ;; todo 项
+			      ("it" "Inbox" entry
+			       (file+headline "~/.notes/inbox.org" "INBOX:todo tesk")
+			       "* TODO %^{heading}\n %?")
+
+			      ("p" "Protocol")
+
+			      ("pb" "Protocol Bookmarks" entry
+			       (file+headline "~/.notes/bookmark.org" "wait")
+			       "* %U - %:annotation" :immediate-finish t :kill-buffer t)
+
+			      ("L" "Protocol Link" entry
+			       (file+headline "~/.notes/bookmark.org" "wait")
+			       "* [[%:link][%:description]]")
+			      ))
+
+;; (setq org-capture-templates
+      
+;;       `(("p" "Protocol")
+;; 	("w" "Protocol Bookmarks" entry (file+headline  "~/.notes/bookmark.org" "wait")
+;;          "* %U - %:annotation  %:initial" :immediate-finish t :kill-buffer t)
+
+;;         ("l" "Protocol Bookmarks" entry (file+headline "~/.notes/bookmark.org" "wait")
+;;          "* %U - %:annotation  %:initial" :immediate-finish t :kill-buffer t)))
+
+      
 (provide 'init-org)
 
 ;;; init-org.el ends here

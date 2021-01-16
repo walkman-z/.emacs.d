@@ -13,7 +13,7 @@
 	 ("C-S-c" . crux-duplicate-current-line-or-region) ;复制当前行或区域
 	 ("C-c M-d" . crux-duplicate-and-comment-current-line-or-region) ;复制并注释当前行或区域
 	 ;; ("C-c d" . crux-cleanup-buffer-or-region)         ;正确的缩进当前块
-	 ;; ("C-c f" . crux-recentf-find-file)                ;打开最近使用文件
+	 ("C-c f" . crux-recentf-find-file)                ;打开最近使用文件
 	 ("C-c e" . crux-eval-and-replace)                 ;求elisp值并用结果取代 (+ 1 1)->2
 	 ("C-c r" . crux-rename-file-and-buffer)           ;重命名文件
 	 ("C-c D" . crux-delete-file-and-buffer)           ;删除文件和缓冲区
@@ -23,6 +23,7 @@
 	 ("C-c C-d" . crux-downcase-region)		   ;小写
 	 ("C-c M-c" . crux-capitalize-region)		   ;单词首字母大写
 	 ))
+
 (use-package hungry-delete
   :init
   

@@ -12,5 +12,4 @@ rime
 session.*
 url
 .cache/
-.emacs*
 .session

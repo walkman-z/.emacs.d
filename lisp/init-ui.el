@@ -19,9 +19,11 @@
 
 
 ;;主题
-(use-package flatui-theme
-  :init (load-theme 'flatui t))
+;; (use-package flatui-theme
+  ;; :init (load-theme 'flatui t))
 
+(use-package doom-themes
+  :init (load-theme 'doom-nord-light))
 
 
 (use-package smart-mode-line

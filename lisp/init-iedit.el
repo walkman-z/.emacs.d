@@ -4,8 +4,8 @@
 
 
 ;; 自动保工作区
-(desktop-save-mode 1)
-(setq desktop-save t)
+;; (desktop-save-mode 1)
+;; (setq desktop-save t)
 
 ;;鼠标滚轮设置字体大小
 (global-set-key [C-wheel-up] 'text-scale-increase)
@@ -113,6 +113,10 @@
 	try-complete-lisp-symbol-partially
 	try-complete-lisp-symbol))
 
+
+;; 规律代码快速输入
+;; (use-package auto-yasnippet)
+(use-package tiny)
 
 (provide 'init-iedit)
 
