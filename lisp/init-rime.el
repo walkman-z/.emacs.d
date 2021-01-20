@@ -56,7 +56,7 @@
 	;; 在文字符串之后（必须为以字母开头的英文字符串）
 	rime-predicate-after-ascii-char-p
 	;; 任意英文字符后
-	rime-predicate-prog-in-code-p
+	;; rime-predicate-prog-in-code-p
 	;; 在 prog-mode 和 conf-mode 中除了注释和引号内字符串之外的区域
 	rime-predicate-in-code-string-p
 	;; 在代码的字符串中，不含注释的字符串。

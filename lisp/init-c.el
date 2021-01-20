@@ -1,6 +1,39 @@
 
 
-(use-package smart-compile)
+(use-package smart-compile
+  :config
+  (setq smart-compile-alist
+	'((emacs-lisp-mode emacs-lisp-byte-compile)
+	  (html-mode browse-url-of-buffer)
+	  (nxhtml-mode browse-url-of-buffer)
+	  (html-helper-mode browse-url-of-buffer)
+	  (octave-mode run-octave)
+	  ("\\.c\\'" . "gcc -O2 %f -lm -o %n && ./%n")
+	  ("\\.[Cc]+[Pp]*\\'" . "g++ -O2 %f -lm -o %n && ./%n")
+	  ("\\.cron\\(tab\\)?\\'" . "crontab %f")
+	  ("\\.cu\\'" . "nvcc %f -o %n")
+	  ("\\.cuf\\'" . "nvfortran -Mcuda -O2 %f -o %n")
+	  ("\\.[Ff]\\'" . "gfortran %f -o %n")
+	  ("\\.[Ff]90\\'" . "gfortran %f -o %n")
+	  ("\\.go\\'" . "go run %f")
+	  ("\\.hs\\'" . "ghc %f -o %n")
+	  ("\\.java\\'" . "javac %f")
+	  ("\\.jl\\'" . "julia %f")
+	  ("\\.lua\\'" . "lua %f")
+	  ("\\.m\\'" . "gcc -O2 %f -lobjc -lpthread -o %n")
+	  ("\\.mp\\'" . "mptopdf %f")
+	  ("\\.php\\'" . "php %f")
+	  ("\\.pl\\'" . "perl %f")
+	  ("\\.p[l]?6\\'" . "perl6 %f")
+	  ("\\.py\\'" . "python3 %f")
+	  ("\\.raku\\'" . "perl6 %f")
+	  ("\\.rb\\'" . "ruby %f")
+	  ("\\.rs\\'" . "rustc %f -o %n")
+	  ("\\.tex\\'" tex-file)
+	  ("\\.texi\\'" . "makeinfo %f"))
+	)
+  )
+
 
 
 ;; (define-key c++-mode-map (kbd "<f5>") 'smart-compile)

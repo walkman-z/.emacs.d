@@ -1,4 +1,12 @@
 
+
+(setq default-frame-alist
+      (append '((height . 50) (width . 100)) default-frame-alist))
+
+;; (set-frame-position (selected-frame) 0 0)
+;; (set-frame-width (selected-frame) 110)
+;; (set-frame-height (selected-frame) 100)
+
 ;;外观配置
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
@@ -23,7 +31,7 @@
   ;; :init (load-theme 'flatui t))
 
 (use-package doom-themes
-  :init (load-theme 'doom-nord-light))
+  :init (load-theme 'doom-nord-light t))
 
 
 (use-package smart-mode-line

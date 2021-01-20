@@ -46,7 +46,9 @@
 
 
 
-;; (use-package org-download)
+
+
+
 
 ;; 禁止点击打开链接 (C-c C-o 可以)
 (defun org-open-at-mouse nil)
@@ -74,7 +76,7 @@
 			      ("i" "inbox:")
 			      ;; todo 项
 			      ("it" "Inbox" entry
-			       (file+headline "~/.notes/inbox.org" "INBOX:todo tesk")
+			       (file+headline "~/.notes/inbox.org" "INBOX")
 			       "* TODO %^{heading}\n %?")
 
 			      ("p" "Protocol")
@@ -88,16 +90,63 @@
 			       "* [[%:link][%:description]]")
 			      ))
 
-;; (setq org-capture-templates
-      
-;;       `(("p" "Protocol")
-;; 	("w" "Protocol Bookmarks" entry (file+headline  "~/.notes/bookmark.org" "wait")
-;;          "* %U - %:annotation  %:initial" :immediate-finish t :kill-buffer t)
 
-;;         ("l" "Protocol Bookmarks" entry (file+headline "~/.notes/bookmark.org" "wait")
-;;          "* %U - %:annotation  %:initial" :immediate-finish t :kill-buffer t)))
+;; 开启Org-mode文本内语法高亮
+(require 'org)
+(require 'ox-latex)
+(setq org-src-fontify-natively t)
 
-      
+;; 导出 latex
+(add-to-list 'org-latex-classes
+	     '("ctexart"
+	       "\\documentclass[UTF8,a4paper]{ctexart}"
+	       ;;"\\documentclass[fontset=none,UTF8,a4paper,zihao=-4]{ctexart}"
+	       ("\\section{%s}" . "\\section*{%s}")
+	       ("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+	       )
+	     )
+(add-to-list 'org-latex-classes
+	       '("ctexrep"
+		"\\documentclass[UTF8,a4paper]{ctexrep}"
+		("\\part{%s}" . "\\part*{%s}")
+		("\\chapter{%s}" . "\\chapter*{%s}")
+		("\\section{%s}" . "\\section*{%s}")
+		("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	       )
+	       )
+
+(add-to-list 'org-latex-classes
+	       '("ctexbook"
+		"\\documentclass[UTF8,a4paper]{ctexbook}"
+		;;("\\part{%s}" . "\\part*{%s}")
+		("\\chapter{%s}" . "\\chapter*{%s}")
+		("\\section{%s}" . "\\section*{%s}")
+		("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	       )
+	       )
+
+(add-to-list 'org-latex-classes
+	       '("beamer"
+		"\\documentclass{beamer}
+               \\usepackage[fontset=none,UTF8,a4paper,zihao=-4]{ctex}"
+	       org-beamer-sectioning)
+	       )
+
+
+(setq org-latex-default-class "ctexart")
+
+
+(setq org-latex-pdf-process
+      '("xelatex -interaction nonstopmode -output-directory %o %f"
+        ;;"biber %b" "xelatex -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"))
 (provide 'init-org)
 
 ;;; init-org.el ends here
