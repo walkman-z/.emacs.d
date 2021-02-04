@@ -12,10 +12,12 @@
 (global-set-key [C-wheel-down] 'text-scale-decrease)
 
 ;; 鼠标右键粘贴文本
-(global-set-key (kbd "<mouse-3>") 'mouse-yank-primary)
+;; (global-set-key (kbd "<mouse-3>") 'mouse-yank-primary)
+(global-set-key (kbd "<mouse-3>") 'nil)
 ;; 取消鼠标中键
 (global-set-key (kbd "<mouse-2>") 'nil)
-
+;; 取消 C+mouse1
+(global-set-key [C-down-mouse-1] 'nil)
 ;; 选中即复制
 (setq mouse-drag-copy-region t)
 

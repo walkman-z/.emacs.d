@@ -37,7 +37,7 @@
             :internal-border-width 10))
 ;; 发送给RIME 的快捷键
 (setq rime-translate-keybindings
-      '("C-f" "C-b" "C-n" "C-p" "C-g" "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>" ))
+      '("C-f" "C-b" "C-n" "C-p" "C-g" "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>" "shift-l" ))
 
 
 ;; 设置横版显示 候选
@@ -84,8 +84,8 @@
 	;; 在 (La)TeX 数学环境中或者输入 (La)TeX 命令时
 	))
 ;; 临时英文模式
-;; emacs 中指定临时切换inline ascii模式
-;; (setq rime-inline-ascii-trigger 'shift-l)
+;; emacs 中指定临时切换inline ascii模式新
+(setq rime-inline-ascii-trigger 'shift-l)
 ;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
 
 
@@ -93,7 +93,10 @@
 (setq rime-inline-ascii-holder ?x)
 
 ;; 临时强制使用强制中文模式
-;; (define-key rime-mode-map (kbd"C-`") 'rime-force-enable)
+(add-hook 'rime-mode-hook
+	  '(lambda ()
+	     (define-key rime-mode-map (kbd"C-`") 'rime-force-enable)
+	     (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)))
 
 
 (provide 'init-rime)

@@ -25,7 +25,7 @@
 (require 'init-startup)					;
 
 (require 'init-company)
-(require 'init-check)
+;; (require 'init-check)
 (require 'init-crux)
 (require 'init-ivy)
 (require 'init-git)    

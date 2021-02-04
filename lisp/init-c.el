@@ -34,6 +34,13 @@
 	)
   )
 
+(use-package symbol-overlay)
+(global-set-key (kbd "M-i") 'symbol-overlay-put)
+(global-set-key (kbd "<f3>") 'symbol-overlay-jump-prev)
+(global-set-key (kbd "<f4>") 'symbol-overlay-jump-next)
+(global-set-key (kbd "<f8>") 'symbol-overlay-mode)
+(global-set-key (kbd "<f7>") 'symbol-overlay-remove-all)
+
 
 
 ;; (define-key c++-mode-map (kbd "<f5>") 'smart-compile)

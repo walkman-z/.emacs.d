@@ -20,7 +20,9 @@
 	  'org-indent-mode)
 (add-hook 'org-mode-hook
 	  (lambda () (display-line-numbers-mode -1)))
-
+(use-package org-bullets)
+(add-hook 'org-mode-hook
+	  (lambda () (org-bullets-mode 1)))
 
 (org-babel-do-load-languages
       'org-babel-load-languages
@@ -40,9 +42,9 @@
 
 (require 'org-tempo)
 
-(use-package valign)
-(add-hook 'org-mode-hook #'valign-mode)
-(setq valign-fancy-bar 1)
+;; (use-package valign)
+;; (add-hook 'org-mode-hook #'valign-mode)
+;; (setq valign-fancy-bar 1)
 
 
 
@@ -52,7 +54,7 @@
 
 ;; 禁止点击打开链接 (C-c C-o 可以)
 (defun org-open-at-mouse nil)
-
+(global-set-key (kbd "<mouse-2>") 'org-open-at-point)
 
 
 
@@ -147,6 +149,10 @@
         "bibtex %b"
         "xelatex -interaction nonstopmode -output-directory %o %f"
         "xelatex -interaction nonstopmode -output-directory %o %f"))
+
+
+
+(setq org-latex-create-formula-image-program 'imagemagick)
 (provide 'init-org)
 
 ;;; init-org.el ends here
