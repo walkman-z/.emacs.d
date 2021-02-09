@@ -35,6 +35,8 @@
 (if *is-windows*
     (add-hook 'before-save-hook 'unix2dos))
 
+(use-package unicode-fonts)
+(unicode-fonts-setup)
 
 (provide 'init-unicode)
 

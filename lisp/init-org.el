@@ -3,6 +3,21 @@
 ;;; Code:
 
 
+(setq left-margin-width 2)
+(setq right-margin-width 2)
+(set-window-buffer nil (current-buffer))
+(setq org-startup-indented t
+      org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+      org-ellipsis " ⌵" ;; folding symbol
+      org-pretty-entities t
+      org-hide-emphasis-markers t
+      ;; show actually italicized text instead of /italicized text/
+      org-agenda-block-separator ""
+      org-fontify-whole-heading-line t
+      org-fontify-done-headline t
+      org-fontify-quote-and-verse-blocks t)
+(setq line-spacing 0.1)
+(setq header-line-format " ")
 
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)

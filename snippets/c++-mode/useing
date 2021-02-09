@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: useing
+# key: usi
+# --
+using namespace ${std};
