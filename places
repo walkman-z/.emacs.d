@@ -1,11 +1,11 @@
 ;;; -*- coding: utf-8 -*-
 (("/home/walkman/.notes/develop.org" . 326)
- ("/home/walkman/.notes/icfs.org" . 188664)
- ("/home/walkman/.notes/inbox.org" . 4858)
- ("/home/walkman/.emacs.d/lisp/init-org.el" . 583)
- ("/home/walkman/.notes/knowledge.org" . 225)
- ("/home/walkman/.notes/journal.org" . 533)
+ ("/home/walkman/.notes/icfs.org" . 1098)
+ ("/home/walkman/.notes/knowledge.org" . 10423)
+ ("/home/walkman/.notes/inbox.org" . 1206)
  ("/home/walkman/.emacs.d/recentf" . 1139)
+ ("/home/walkman/.emacs.d/lisp/init-org.el" . 583)
+ ("/home/walkman/.notes/journal.org" . 533)
  ("/home/walkman/CPlusPlusThings/basic_content/"
   (dired-filename . "/home/walkman/CPlusPlusThings/basic_content/friend"))
  ("/home/walkman/CPlusPlusThings/basic_content/friend/friend_class" . 787)
