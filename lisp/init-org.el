@@ -9,7 +9,8 @@
 (setq org-startup-indented t
       org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
       org-ellipsis " ⌵" ;; folding symbol
-      ;; org-pretty-entities t
+      org-pretty-entities t ;; 上下标显示支持
+      org-use-sub-superscripts '{}  ;; 当 _{} 或 ^{} 时支持上下标
       org-hide-emphasis-markers t
       ;; show actually italicized text instead of /italicized text/
       org-agenda-block-separator ""
