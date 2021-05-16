@@ -24,33 +24,6 @@
 (require 'init-unicode)
 (require 'init-startup)					;
 
-(require 'init-company)
-;; (require 'init-check)
-(require 'init-crux)
-(require 'init-ivy)
-(require 'init-git)    
-(require 'init-packages)
-
-(require 'init-iedit)
-(require 'init-avy)
-(require 'init-tex)
-(require 'init-paren)
-(require 'init-program)
-
-(require 'init-c)
-
-;; org-mode
-(require 'init-org)
-;; (require 'init-org-gtd)
-;; (require 'init-org-roam)
-
-
-;; linux 
-(if *is-linux*
-    (require 'init-rime))
-
-;; (require 'init-translate)
-; (require 'init-keyfreq)
 
 
 ;; (auto-insert-mode)
@@ -62,20 +35,21 @@
 
 ;; (use-package file-template)
 
-
-;; ui set
-(require 'init-ui)
-(require 'init-window)
-
-(when (file-exists-p custom-file)
-  (load-file custom-file))
-
 ;; (use-package indent-guide
 ;;   :config
 ;;   (setq indent-guide-reverse t)
 ;;   (setq indent-guide-char ":")
 ;;   (indent-guide-global-mode))
 
+(custom-set-variables
+ '(org-babel-load-languages (quote ((emacs-lisp . t) )))
+ '(org-confirm-babel-evaluate nil))
+
+(org-babel-load-file (expand-file-name "~/.emacs.d/myinit.org"))
+
+
+(when (file-exists-p custom-file)
+  (load-file custom-file))
 
 (provide 'init)
 ;; ;;; init.el ends here
