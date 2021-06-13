@@ -14,3 +14,6 @@ url
 .cache/
 .session
 places
+*.desktop
+*.lock
+myinit.el
