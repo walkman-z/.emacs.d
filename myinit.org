@@ -409,6 +409,15 @@
           ; 'flyspell-mode
           'TeX-fold-mode t))
 
+
+
+
+  ;; (use-package mathpix.el
+  ;;   :straight (:host github :repo "jethrokuan/mathpix.el")
+  ;;   :custom ((mathpix-app-id "app-id")
+  ;;            (mathpix-app-key "app-key"))
+  ;;   :bind
+  ;;   ("C-x m" . mathpix-screenshot))
 #+end_src
 * paren
 #+begin_src emacs-lisp
@@ -704,10 +713,97 @@
   (setq org-latex-create-formula-image-program 'imagemagick)
 #+end_src
 
+** 插入并显示图片
+#+begin_src emacs-lisp
+
+  (use-package org-download)
+
+  (add-hook 'org-mode-hook 'org-download-enable)
+
+  (use-package org-download
+            :ensure t 
+            ;;将截屏功能绑定到快捷键：Ctrl + Shift + Y
+            :bind ("C-S-y" . org-download-screenshot)
+            :config
+            (require 'org-download)
+            ;; Drag and drop to Dired
+            (add-hook 'org-mode-hook 'org-download-enable)
+            )
+  ;; (use-package org-download
+  ;;   :ensure t
+  ;;   :hook ((org-mode dired-mode) . org-download-enable)
+  ;;   :config
+  ;;   (defun +org-download-method (link)
+  ;;     (org-download--fullname (org-link-unescape link)))
+  ;;   (setq org-download-method '+org-download-method)
+
+  ;;   (setq org-download-annotate-function (lambda (_link) "")
+  ;;         org-download-method 'attach
+  ;;         org-download-screenshot-method "gnome-screenshot -ca %s"))
+#+end_src
+* org-roam
+#+begin_src emacs-lisp
+  ;; (add-hook 'after-init-hook 'org-roam-mode)
+  ;; 第一次运行时，手动构建缓存
+  ;; org-roam-db-build-cache
+  ;; org-roam 与网页端通信
+  ;; (require 'org-roam-protocol)
+
+
+  (use-package org-roam
+    :after org
+    :commands (org-roam-buffer
+               org-roam-setup
+               org-roam-capture
+               org-roam-node-find)
+    :init
+    ;; 禁用版本迁移警告
+    (setq org-roam-v2-ack t)
+    ;; 文件保存目录
+    (setq org-roam-directory (file-truename "~/org-roam"))
+    (if (not (file-exists-p (file-truename org-roam-directory)))
+        (make-directory "~/org-roam")
+      )
+    ;; sql可执行文件
+    (if *is-windows*
+        (add-to-list 'exec-path "D:\sql\sqlite-tools-win32-x86-3340000"))
+    ;; (executable-find "sqlite3")
+    ;; 只在保存时更新数据库
+    ;; (setq org-roam-db-update-on-save nil)
+    (setq org-roam-file-extensions '("org"))
+
+    (setq org-id-link-to-org-use-id t)
+
+    (setq org-roam-completion-everywhere t)
+    ;;
+    (org-roam-setup)
+    ;; (org-roam-directory "D:/emacs/home/org-roam")
+    ;; :bind (:map org-roam-mode-map
+    ;;             (("C-c n l" . org-roam)
+    ;;              ("C-c n f" . org-roam-find-file)
+    ;;              ("C-c n g" . org-roam-graph))
+    ;;             :map org-mode-map
+    ;;             (("C-c n i" . org-roam-insert))
+    ;;             (("C-c n I" . org-roam-insert-immediate)))
+    )
+
+
+  ;; (use-package org-roam-server)
+  ;; ;; (require 'org-ref)
+  ;; (setq org-roam-server-host "127.0.0.1"
+  ;;       org-roam-server-port 9090
+  ;;       org-roam-server-export-inline-images t
+  ;;       org-roam-server-authenticate nil
+  ;;       org-roam-server-network-label-truncate t
+  ;;       org-roam-server-network-label-truncate-length 60
+  ;;       org-roam-server-network-label-wrap-length 20)
+  ;; (org-roam-server-mode)
+#+end_src
+
 * input
 #+begin_src emacs-lisp
 
-  (if *is-wsl* 
+  (if (or *is-linux* *is-wsl*)
       (use-package rime
         :custom
         (default-input-method "rime")
@@ -808,71 +904,73 @@
 #+end_src
 * ui
 #+begin_src emacs-lisp
-    ;; (setq default-frame-alist
-    ;;       (append '((height . 50) (width . 100)) default-frame-alist))
+  ;; (setq default-frame-alist
+  ;;       (append '((height . 50) (width . 100)) default-frame-alist))
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-    ;; (set-frame-position (selected-frame) 0 0)
-    ;; (set-frame-width (selected-frame) 110)
-    ;; (set-frame-height (selected-frame) 100)
+  ;; (set-frame-position (selected-frame) 0 0)
+  ;; (set-frame-width (selected-frame) 110)
+  ;; (set-frame-height (selected-frame) 100)
 
-    ;;外观配置
-    (setq inhibit-startup-screen t)
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (set-default 'cursor-type 'bar)
-    ;;显示行号
-    (global-display-line-numbers-mode 1)
+  ;;外观配置
+  (setq inhibit-startup-screen t)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (set-default 'cursor-type 'bar)
+  ;;显示行号
+  (global-display-line-numbers-mode 1)
 
-    (setq display-line-numbers-width-start t)
+  (setq display-line-numbers-width-start t)
 
-    ;; 侧边栏
-    ;; (use-package treemacs)
-    ;; (treemacs)
+  ;; 侧边栏
+  ;; (use-package treemacs)
+  ;; (treemacs)
+  ;; 行间距
 
-
-
-
-
-    ;;主题
-    ;; (use-package flatui-theme
-      ;; :init (load-theme 'flatui t))
-
-    (use-package doom-themes
-      :init (load-theme 'doom-nord-light t))
+  (setq-default line-spacing 0.5)
 
 
-    (use-package smart-mode-line
-      :init
-      (setq sml/no-confirm-load-theme t
-            sml/theme 'respectful)
-      (sml/setup))
 
 
-    (use-package emacs
-      :when (display-graphic-p)
-      :config
-      ;; (setq default-frame-alist '((width . 150) (height . 35)))
-      ;(set-frame-parameter nil 'fullscreen 'maximized)
-      (when *is-windows*
-        (set-face-attribute 'default nil :font "Consolas 15")
-        (dolist (charset '(kana han symbol cjk-misc bopomofo))
-          (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
-      (when *is-mac*
-        (set-face-attribute 'default nil :font "SF Mono 15")
-        (dolist (charset '(kana han symbol cjk-misc bopomofo))
-          (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
-      (when *is-linux*
-        (set-face-attribute 'default nil :font "Consolas 15")
-        (dolist (charset '(kana han symbol cjk-misc bopomofo))
-          (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
-      )
+  ;;主题
+  ;; (use-package flatui-theme
+  ;; :init (load-theme 'flatui t))
+
+  (use-package doom-themes
+    :init (load-theme 'doom-acario-dark t))
 
 
-    ;; (use-package hl-line
-    ;;   :ensure nil
-    ;;   :hook (after-init . global-hl-line-mode))
+  (use-package smart-mode-line
+    :init
+    (setq sml/no-confirm-load-theme t
+          sml/theme 'respectful)
+    (sml/setup))
+
+
+  (use-package emacs
+    :when (display-graphic-p)
+    :config
+    ;; (setq default-frame-alist '((width . 150) (height . 35)))
+                                          ;(set-frame-parameter nil 'fullscreen 'maximized)
+    (when *is-windows*
+      (set-face-attribute 'default nil :font "Consolas 15")
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+    (when *is-mac*
+      (set-face-attribute 'default nil :font "SF Mono 15")
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+    (when *is-linux*
+      (set-face-attribute 'default nil :font "Consolas 15")
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+    )
+
+
+  ;; (use-package hl-line
+  ;;   :ensure nil
+  ;;   :hook (after-init . global-hl-line-mode))
 
 
 #+end_src
