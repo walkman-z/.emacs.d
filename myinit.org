@@ -89,6 +89,29 @@
   ;; (unicode-fonts-setup)
 
 #+end_src
+* packages 
+** simple
+#+begin_src emacs-lisp
+  (use-package restart-emacs)
+
+  (use-package benchmark-init
+    :init (benchmark-init/activate)
+    :hook (after-init . benchmark-init/deactivate))
+
+  (use-package try)
+#+end_src
+** stright
+** quelpa
+https://github.com/quelpa/quelpa
+https://github.com/quelpa/quelpa-use-package
+#+begin_src emacs-lisp
+  (use-package quelpa)
+  (add-to-list 'load-path "~/.emacs.d/elpa/quelpa-20210329.639")
+  (require 'quelpa)
+  (use-package quelpa-use-package)
+  (add-to-list 'load-path "~/.emacs.d/elpa/uelpa-use-package-20201022.746")
+  (require 'quelpa-use-package)
+#+end_src
 * company
 #+begin_src emacs-lisp
   ;; Settings for company
@@ -216,16 +239,6 @@
 * git
 #+begin_src emacs-lisp
   (use-package magit)
-#+end_src
-* packages 
-#+begin_src emacs-lisp
-  (use-package restart-emacs)
-
-  (use-package benchmark-init
-    :init (benchmark-init/activate)
-    :hook (after-init . benchmark-init/deactivate))
-
-  (use-package try)
 #+end_src
 * iedit
 #+begin_src emacs-lisp
@@ -559,7 +572,7 @@
         org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
-  (setq line-spacing 0.1)
+  (setq line-spacing 0.2)
   (setq header-line-format " ")
 
   (global-set-key (kbd "C-c l") 'org-store-link)
@@ -573,30 +586,31 @@
 
 
   (add-hook 'org-mode-hook
-      (lambda () (setq truncate-lines nil)))
+            (lambda () (setq truncate-lines nil)))
   (add-hook 'org-mode-hook
             'org-indent-mode)
-  (add-hook 'org-mode-hook
-            (lambda () (display-line-numbers-mode -1)))
+  ;; (add-hook 'org-mode-hook
+  ;;           (lambda () (display-line-numbers-mode -1)))
+
   (use-package org-bullets)
   (add-hook 'org-mode-hook
             (lambda () (org-bullets-mode 1)))
 
   (org-babel-do-load-languages
-        'org-babel-load-languages
-        '((emacs-lisp . t)
-          (C . t)
-          ;; (java . t)
-          ;; (js . t)
-          ;; (ruby . t)
-          ;; (ditaa . t)
-          ;; (python . t)
-          (shell . t)
-          (latex . t)
-          ;; (plantuml . t)
-          ;; (R . t)
-          )
-        )
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (C . t)
+     ;; (java . t)
+     ;; (js . t)
+     ;; (ruby . t)
+     ;; (ditaa . t)
+     ;; (python . t)
+     (shell . t)
+     (latex . t)
+     ;; (plantuml . t)
+     ;; (R . t)
+     )
+   )
 
   (require 'org-tempo)
 
@@ -659,7 +673,7 @@
   ;; 导出 latex
   (add-to-list 'org-latex-classes
                '("ctexart"
-                 "\\documentclass[UTF8,a4paper]{ctexart}"
+                 "\\documentclass[UTF8,a3paper]{ctexart}"
                  ;;"\\documentclass[fontset=none,UTF8,a4paper,zihao=-4]{ctexart}"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -669,44 +683,46 @@
                  )
                )
   (add-to-list 'org-latex-classes
-                 '("ctexrep"
-                  "\\documentclass[UTF8,a4paper]{ctexrep}"
-                  ("\\part{%s}" . "\\part*{%s}")
-                  ("\\chapter{%s}" . "\\chapter*{%s}")
-                  ("\\section{%s}" . "\\section*{%s}")
-                  ("\\subsection{%s}" . "\\subsection*{%s}")
+               '("ctexrep"
+                 "\\documentclass[UTF8,a4paper]{ctexrep}"
+                 ("\\part{%s}" . "\\part*{%s}")
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  )
-                 )
+               )
 
   (add-to-list 'org-latex-classes
-                 '("ctexbook"
-                  "\\documentclass[UTF8,a4paper]{ctexbook}"
-                  ;;("\\part{%s}" . "\\part*{%s}")
-                  ("\\chapter{%s}" . "\\chapter*{%s}")
-                  ("\\section{%s}" . "\\section*{%s}")
-                  ("\\subsection{%s}" . "\\subsection*{%s}")
+               '("ctexbook"
+                 "\\documentclass[UTF8,a4paper]{ctexbook}"
+                 ;;("\\part{%s}" . "\\part*{%s}")
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  )
-                 )
+               )
 
   (add-to-list 'org-latex-classes
-                 '("beamer"
-                  "\\documentclass{beamer}
-                 \\usepackage[fontset=none,UTF8,a4paper,zihao=-4]{ctex}"
+               '("beamer"
+                 "\\documentclass{beamer}
+                   \\usepackage[fontset=none,UTF8,a4paper,zihao=-4]{ctex}"
                  org-beamer-sectioning)
-                 )
+               )
 
 
   (setq org-latex-default-class "ctexart")
 
 
   (setq org-latex-pdf-process
-        '("xelatex -interaction nonstopmode -output-directory %o %f"
-          ;;"biber %b" "xelatex -interaction nonstopmode -output-directory %o %f"
-          "bibtex %b"
-          "xelatex -interaction nonstopmode -output-directory %o %f"
-          "xelatex -interaction nonstopmode -output-directory %o %f"))
+        ;; '("xelatex -interaction nonstopmode -output-directory %o %f"
+        ;;   ;;"biber %b" "xelatex -interaction nonstopmode -output-directory %o %f"
+        ;;   "bibtex %b"
+        ;;   "xelatex -interaction nonstopmode -output-directory %o %f"
+        ;;   "xelatex -interaction nonstopmode -output-directory %o %f")
+      '("latexmk -pdf  -xelatex %f")
+        )
 
 
 
@@ -714,32 +730,51 @@
 #+end_src
 
 ** 插入并显示图片
+https://www.dazhuanlan.com/aq370882/topics/1270842
+https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.html
 #+begin_src emacs-lisp
 
-  (use-package org-download)
+    (use-package org-download)
 
-  (add-hook 'org-mode-hook 'org-download-enable)
+    (add-hook 'org-mode-hook 'org-download-enable)
 
-  (use-package org-download
-            :ensure t 
-            ;;将截屏功能绑定到快捷键：Ctrl + Shift + Y
-            :bind ("C-S-y" . org-download-screenshot)
-            :config
-            (require 'org-download)
-            ;; Drag and drop to Dired
-            (add-hook 'org-mode-hook 'org-download-enable)
-            )
-  ;; (use-package org-download
-  ;;   :ensure t
-  ;;   :hook ((org-mode dired-mode) . org-download-enable)
-  ;;   :config
-  ;;   (defun +org-download-method (link)
-  ;;     (org-download--fullname (org-link-unescape link)))
-  ;;   (setq org-download-method '+org-download-method)
+    (use-package org-download
+              :ensure t 
+              ;;将截屏功能绑定到快捷键：Ctrl + Shift + Y
+              :bind ("C-S-y" . org-download-screenshot)
+              :config
+              (require 'org-download)
+              ;; Drag and drop to Dired
+              (add-hook 'org-mode-hook 'org-download-enable)
+              )
+    (defun turn-on-org-show-all-inline-images ()
+      (org-display-inline-images t t))
+    (add-hook 'org-mode-hook 'turn-on-org-show-all-inline-images)
 
-  ;;   (setq org-download-annotate-function (lambda (_link) "")
-  ;;         org-download-method 'attach
-  ;;         org-download-screenshot-method "gnome-screenshot -ca %s"))
+  (defun my-org-screenshot ()
+    "Take a screenshot into a time stamped unique-named file in the
+  same directory as the org-buffer and insert a link to this file."
+    (interactive)
+    (make-frame-invisible nil t)
+    (org-download-screenshot)
+    (make-frame-visible)
+    )
+    ;; (use-package org-download
+    ;;   :ensure t
+    ;;   :hook ((org-mode dired-mode) . org-download-enable)
+    ;;   :config
+    ;;   (defun +org-download-method (link)
+    ;;     (org-download--fullname (org-link-unescape link)))
+    ;;   (setq org-download-method '+org-download-method)
+
+    ;;   (setq org-download-annotate-function (lambda (_link) "")
+    ;;         org-download-method 'attach
+    ;;         org-download-screenshot-method "gnome-screenshot -ca %s"))
+#+end_src
+
+** latex export
+#+begin_src emacs-lisp
+
 #+end_src
 * org-roam
 #+begin_src emacs-lisp
@@ -902,6 +937,16 @@
 
 
 #+end_src
+
+* project manage
+#+begin_src emacs-lisp
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+#+end_src
 * ui
 #+begin_src emacs-lisp
   ;; (setq default-frame-alist
@@ -974,10 +1019,84 @@
 
 
 #+end_src
-* window
+* windows manage
+** jump to to other window
 #+begin_src emacs-lisp
   (use-package ace-window
     :bind (("M-o" . 'ace-window)))
 
 #+end_src
-* 
+** popwin
+[[https://github.com/emacsorphanage/popwin][popwin.el README]]
+#+begin_src emacs-lisp
+  (use-package popwin)
+
+  (popwin-mode 1)
+
+#+end_src
+* projectile
+[[https://phenix3443.github.io/notebook/emacs/modes/projectile-mode.html#orgd7c12f6][Table of Contents]]
+** 
+* words
+** ???
+#+begin_src emacs-lisp
+(defvar webster-url "http://www.m-w.com/cgi-bin/dictionary?book=Dictionary&va=")
+
+(defun merriam (word)
+  (interactive "slook up a word in merriam-webster: ")
+  (let (start (point))
+    ;; 
+    (cond ((string= (format "%s" (current-buffer)) "*eww*")
+           (eww-browse-url (concat webster-url word)))
+          ;; 
+          ((bufferp (get-buffer "*eww*"))
+           (progn (view-buffer-other-window (get-buffer "*eww*"))
+                  (eww-browse-url (concat webster-url word))))
+          ;; 
+          (t
+           (progn (view-buffer-other-window (get-buffer "*scratch*"))
+                  (eww-browse-url (concat webster-url word)))))))
+#+end_src
+** youdao dictionary
+#+begin_src emacs-lisp
+  ;; USAGE:
+  ;; youdao-dictionary-search-at-point
+  ;;     Search word at point and display result with buffer
+  ;; youdao-dictionary-search-at-point+
+  ;;     Search word at point and display result with popup-tip
+  ;; youdao-dictionary-search-at-point-tooltip
+  ;;     Search word at point and display result with tooltip
+  ;; youdao-dictionary-search-at-point-posframe
+  ;;     Search word at point and display result with posframe
+  ;; youdao-dictionary-search-from-input
+  ;;     Search word from input and display result with buffer
+  ;; youdao-dictionary-search-and-replace
+  ;;     Search word at point and display result with popup-menu, replace word with selected translation.
+  ;; youdao-dictionary-play-voice-at-point
+  ;;     Play voice of word at point (by @snyh)
+  ;; youdao-dictionary-play-voice-from-input
+  ;;     Play voice of word from input (by @snyh)
+
+  (use-package youdao-dictionary)
+  ;; Enable Cache
+  (setq url-automatic-caching t)
+
+  ;; Example Key binding
+  (global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point)
+
+  ;; Integrate with popwin-el (https://github.com/m2ym/popwin-el)
+  (push "*Youdao Dictionary*" popwin:special-display-config)
+
+  ;; Set file path for saving search history
+  (setq youdao-dictionary-search-history-file "~/.emacs.d/.youdao")
+
+  ;; Enable Chinese word segmentation support (支持中文分词)
+  (setq youdao-dictionary-use-chinese-word-segmentation t)
+#+end_src
+** shengci
+#+begin_src emacs-lisp
+    (use-package shengci
+      :quelpa ((shengci :fetcher github :repo "EvanMeek/shengci.el"))
+)
+    (load-file "~/.emacs.d/quelpa/build/shengci/shengci.el")
+#+end_src
