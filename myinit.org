@@ -670,6 +670,11 @@ https://github.com/quelpa/quelpa-use-package
   (require 'ox-latex)
   (setq org-src-fontify-natively t)
 
+
+#+end_src
+
+** latex export
+#+begin_src emacs-lisp
   ;; 导出 latex
   (add-to-list 'org-latex-classes
                '("ctexart"
@@ -721,6 +726,7 @@ https://github.com/quelpa/quelpa-use-package
         ;;   "bibtex %b"
         ;;   "xelatex -interaction nonstopmode -output-directory %o %f"
         ;;   "xelatex -interaction nonstopmode -output-directory %o %f")
+
       '("latexmk -pdf  -xelatex %f")
         )
 
@@ -835,6 +841,7 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
   ;; (org-roam-server-mode)
 #+end_src
 
+
 * input
 #+begin_src emacs-lisp
 
@@ -849,7 +856,7 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
 
   ;; (setq module-file-suffix ".so")
   ;; 用户RIME 配置文件所在地
-  (setq rime-user-data-dir "~/.config/fcitx/rime")
+  (setq rime-user-data-dir "~/.config/fcitx/rime/")
 
   ;; 设置显示方式
   ;; nil	        不展示
@@ -983,14 +990,14 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
   ;; :init (load-theme 'flatui t))
 
   (use-package doom-themes
-    :init (load-theme 'doom-acario-dark t))
-
+    :init (load-theme 'doom-acario-light t))
 
   (use-package smart-mode-line
     :init
     (setq sml/no-confirm-load-theme t
           sml/theme 'respectful)
     (sml/setup))
+
 
 
   (use-package emacs
@@ -1007,7 +1014,7 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
       (dolist (charset '(kana han symbol cjk-misc bopomofo))
         (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
     (when *is-linux*
-      (set-face-attribute 'default nil :font "Consolas 15")
+      (set-face-attribute 'default nil :font "FiraCode 15")
       (dolist (charset '(kana han symbol cjk-misc bopomofo))
         (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
     )
@@ -1021,6 +1028,7 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
 #+end_src
 * windows manage
 ** jump to to other window
+
 #+begin_src emacs-lisp
   (use-package ace-window
     :bind (("M-o" . 'ace-window)))
@@ -1095,8 +1103,8 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
 #+end_src
 ** shengci
 #+begin_src emacs-lisp
-    (use-package shengci
-      :quelpa ((shengci :fetcher github :repo "EvanMeek/shengci.el"))
-)
-    (load-file "~/.emacs.d/quelpa/build/shengci/shengci.el")
+  ;;     (use-package shengci
+  ;;       :quelpa ((shengci :fetcher github :repo "EvanMeek/shengci.el"))
+  ;; )
+  ;;     (load-file "~/.emacs.d/quelpa/build/shengci/shengci.el")
 #+end_src
