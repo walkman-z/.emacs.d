@@ -1,5 +1,4 @@
-
-* init-const
+* Consts
 #+begin_src emacs-lisp
   (defconst *is-wsl* (and (eq system-type 'gnu/linux)
                               (string-match "-[Mm]icrosoft" operating-system-release)))
@@ -14,7 +13,7 @@
         (*is-windows* (message "Windows")))
 #+end_src
 
-* better-default
+* Init
 #+begin_src emacs-lisp
 
   ;;取消出错时响铃
@@ -27,13 +26,13 @@
 
   ;;关闭自动保存
   (setq auto-save-default nil
-        make-backup-files nil) 
+        make-backup-files nil)
   ;;yes/no取代
   (defalias 'yes-or-no-p 'y-or-n-p)
-  ;; 
+  ;;
 
 
-  ;; save workspace when 
+  ;; save workspace when
   (use-package saveplace
     :ensure nil
     :hook (after-init . save-place-mode))
@@ -46,7 +45,7 @@
   (setq-default frame-title-format '("%f"))
 #+end_src
 
-* unicode
+* Unicode Support
 #+begin_src emacs-lisp
 
   ;; Settings for system encoding
@@ -89,7 +88,7 @@
   ;; (unicode-fonts-setup)
 
 #+end_src
-* packages 
+* Package Manage
 ** simple
 #+begin_src emacs-lisp
   (use-package restart-emacs)
@@ -101,6 +100,20 @@
   (use-package try)
 #+end_src
 ** stright
+#+begin_src xxxx
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+end_src
 ** quelpa
 https://github.com/quelpa/quelpa
 https://github.com/quelpa/quelpa-use-package
@@ -112,77 +125,167 @@ https://github.com/quelpa/quelpa-use-package
   (add-to-list 'load-path "~/.emacs.d/elpa/uelpa-use-package-20201022.746")
   (require 'quelpa-use-package)
 #+end_src
-* company
+* User Interface
+** Font
 #+begin_src emacs-lisp
-  ;; Settings for company
-  (use-package company
-    ;; The next line cause lsp-mode bugs when complete functions
-    ;; (push '(company-semantic :with company-yasnippet) company-backends)
-    :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
-    :hook (prog-mode . company-mode)   ;只在编程语言模式下启用
-    :config (setq company-dabbrev-code-everywhere t ;任何地方都自动补全
-                  company-dabbrev-code-modes t
-                  company-dabbrev-code-other-buffers 'all
-                  company-dabbrev-downcase nil
-                  company-dabbrev-ignore-case t
-                  company-dabbrev-other-buffers 'all
-                  company-require-match nil
-                  company-minimum-prefix-length 2
-                  company-show-numbers t
-                  company-tooltip-limit 20
-                  company-idle-delay 0
-                  company-echo-delay 0
-                  company-tooltip-offset-display 'scrollbar
-                  company-begin-commands '(self-insert-command)))
-
-
-  (use-package yasnippet
-    :init
-    (yas-global-mode 1)
-    (use-package yasnippet-snippets)
+  (use-package emacs
+    :when (display-graphic-p)
+    :config
+    ;; (setq default-frame-alist '((width . 150) (height . 35)))
+                                          ;(set-frame-parameter nil 'fullscreen 'maximized)
+    (when *is-windows*
+      (set-face-attribute 'default nil :font "Consolas 15")
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+    (when *is-mac*
+      (set-face-attribute 'default nil :font "SF Mono 15")
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+    (when *is-linux*
+      (set-face-attribute 'default nil :font "Consolas 15")
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
+    )
+#+end_src
+** Theme
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :custom-face
+    (cursor ((t (:background "BlanchedAlmond"))))
+    :config
+    ;; flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    ;; (doom-themes-org-config)
+    ;; (load-theme 'doom-one t)
+    ;; (defun switch-theme ()
+    ;;   "An interactive funtion to switch themes."
+    ;;   (interactive)
+    ;;   (disable-theme (intern (car (mapcar #'symbol-name custom-enabled-themes))))
+    ;;   (call-interactively #'load-theme))
     )
 
-#+end_src
-* crux
-#+begin_src emacs-lisp
-
-  (use-package crux
-    :bind (("C-c RET" . crux-smart-open-line-above)
-           ;; ("C-k" . crux-smart-kill-line)
-           ("C-a" . crux-move-beginning-of-line)
-	 
-           ;("C-c ^" . crux-top-join-line)
-           ("C-c i" . crux-find-user-init-file)
-           ("C-c ," . crux-find-user-custom-file)
-           ("C-c S" . crux-find-shell-init-file)
-           ("C-S-c" . crux-duplicate-current-line-or-region) ;复制当前行或区域
-           ("C-c M-d" . crux-duplicate-and-comment-current-line-or-region) ;复制并注释当前行或区域
-           ;; ("C-c d" . crux-cleanup-buffer-or-region)         ;正确的缩进当前块
-           ("C-c f" . crux-recentf-find-file)                ;打开最近使用文件
-           ("C-c e" . crux-eval-and-replace)                 ;求elisp值并用结果取代 (+ 1 1)->2
-           ("C-c r" . crux-rename-file-and-buffer)           ;重命名文件
-           ("C-c D" . crux-delete-file-and-buffer)           ;删除文件和缓冲区
-           ("C-c k" . crux-kill-other-buffers)		   ;删除其他缓冲区
-           ("C-c t" . crux-visit-term-buffer)		   ;打开终端模拟缓冲区
-           ("C-c C-u" . crux-upcase-region)		   ;让一段区域变成大写
-           ("C-c C-d" . crux-downcase-region)		   ;小写
-           ("C-c M-c" . crux-capitalize-region)		   ;单词首字母大写
-           ))
-
-  (use-package hungry-delete
+  (load-theme 'doom-one t)
+  ;; (use-package doom-modeline
+  ;;   :custom
+  ;;   ;; Don't compact font caches during GC. Windows Laggy Issue
+  ;;   (inhibit-compacting-font-caches t)
+  ;;   (doom-modeline-minor-modes t)
+  ;;   (doom-modeline-icon t)
+  ;;   (doom-modeline-major-mode-color-icon t)
+  ;;   (doom-modeline-height 15)
+  ;;   :config
+  ;;   (doom-modeline-mode))
+  (use-package smart-mode-line
     :init
-  
-    :bind (("C-c DEL" . hungry-delete-backward)
-           ("C-c d" . hungry-delete-forward)
-           ))
-
-  ;; (use-package drag-stuff
-  ;;   :bind (("<M-up>" . drag-stuff-up)
-  ;; 	 ("<M-down>" . drag-stuff-down)))
+    (setq sml/no-confirm-load-theme t
+          sml/theme 'respectful)
+    (sml/setup))
 
 
 #+end_src
-* ivy
+** SideBar
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :config
+    (treemacs-tag-follow-mode)
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ;; ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag))
+    (:map treemacs-mode-map
+          ("/" . treemacs-advanced-helpful-hydra)))
+
+  (use-package treemacs-projectile
+    :ensure t
+    :after (treemacs projectile))
+
+  ;; (use-package lsp-treemacs
+  ;;   :ensure t
+  ;;   :after (treemacs lsp))
+#+end_src
+** Other
+#+begin_src emacs-lisp
+    ;; (setq default-frame-alist
+    ;;       (append '((height . 50) (width . 100)) default-frame-alist))
+    (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+    ;; (set-frame-position (selected-frame) 0 0)
+    ;; (set-frame-width (selected-frame) 110)
+    ;; (set-frame-height (selected-frame) 100)
+
+    ;;外观配置
+    (setq inhibit-startup-screen t)
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (set-default 'cursor-type 'bar)
+    ;;显示行号
+    (global-display-line-numbers-mode 1)
+
+    (setq display-line-numbers-width-start t)
+
+    ;; 侧边栏
+    ;; (use-package treemacs)
+    ;; (treemacs)
+    ;; 行间距
+
+    (setq-default line-spacing 0.5)
+
+
+
+#+end_src
+* Basis Function Enhance
+** crux
+#+begin_src emacs-lisp
+  (defun myfunc-find-user-init-file ()
+    "Edit the `user-init-file', in another window."
+    (interactive)
+    (find-file-other-window "~/.emacs.d/myinit.org"))
+
+    (use-package crux
+      :bind (("C-c RET" . crux-smart-open-line-above)
+             ;; ("C-k" . crux-smart-kill-line)
+             ("C-a" . crux-move-beginning-of-line)
+	 
+             ;("C-c ^" . crux-top-join-line)
+             ("C-c i" . myfunc-find-user-init-file)
+             ("C-c ," . crux-find-user-custom-file)
+             ("C-c S" . crux-find-shell-init-file)
+             ("C-S-c" . crux-duplicate-current-line-or-region) ;复制当前行或区域
+             ("C-c M-d" . crux-duplicate-and-comment-current-line-or-region) ;复制并注释当前行或区域
+             ;; ("C-c d" . crux-cleanup-buffer-or-region)         ;正确的缩进当前块
+             ("C-c f" . crux-recentf-find-file)                ;打开最近使用文件
+             ("C-c e" . crux-eval-and-replace)                 ;求elisp值并用结果取代 (+ 1 1)->2
+             ("C-c r" . crux-rename-file-and-buffer)           ;重命名文件
+             ("C-c D" . crux-delete-file-and-buffer)           ;删除文件和缓冲区
+             ("C-c k" . crux-kill-other-buffers)		   ;删除其他缓冲区
+             ("C-c t" . crux-visit-term-buffer)		   ;打开终端模拟缓冲区
+             ("C-c C-u" . crux-upcase-region)		   ;让一段区域变成大写
+             ("C-c C-d" . crux-downcase-region)		   ;小写
+             ("C-c M-c" . crux-capitalize-region)		   ;单词首字母大写
+             ))
+
+    (use-package hungry-delete
+      :init
+  
+      :bind (("C-c DEL" . hungry-delete-backward)
+             ("C-c d" . hungry-delete-forward)
+             ))
+
+    ;; (use-package drag-stuff
+    ;;   :bind (("<M-up>" . drag-stuff-up)
+    ;; 	 ("<M-down>" . drag-stuff-down)))
+
+
+#+end_src
+** ivy
 #+begin_src emacs-lisp
   (use-package ivy
     :defer 1
@@ -236,15 +339,13 @@ https://github.com/quelpa/quelpa-use-package
   (use-package smex)
 
 #+end_src
-* git
-#+begin_src emacs-lisp
-  (use-package magit)
-#+end_src
-* iedit
+** iedit
 #+begin_src emacs-lisp
   ;; (use-package iedit
   ;;   :bind ("C-i" . iedit-mode))
 
+  ;;'focus-in-hook和'focus-out-hook
+  ;; 失焦后自动保存文件
 
   ;; 自动保工作区
   ;; (desktop-save-mode 1)
@@ -265,8 +366,6 @@ https://github.com/quelpa/quelpa-use-package
   (setq mouse-drag-copy-region t)
 
   ;; 自动更新文件
-
-
   (use-package autorevert
     :ensure nil
     :hook (after-init . global-auto-revert-mode))
@@ -282,7 +381,7 @@ https://github.com/quelpa/quelpa-use-package
            ([remap isearch-delete-char] . isearch-del-char))
     :custom
     (isearch-lazy-count t)
-    (lazy-count-prefix-format "%s/%s ")  
+    (lazy-count-prefix-format "%s/%s ")
     (lazy-highlight-cleanup nil))
 
   ;;选中后输入替换
@@ -363,76 +462,34 @@ https://github.com/quelpa/quelpa-use-package
   ;; (use-package auto-yasnippet)
   (use-package tiny)
 #+end_src
-* avy
+** copy and paste
 #+begin_src emacs-lisp
-  (use-package avy
-    :init
-    :bind ("C-:" . avy-goto-char)
-    ;; ("" . avy-goto-char-2)
-    ;("" . avy-goto-line)
-    ;; ("" . avy-goto-word-1)
-    )
+  (use-package popup-kill-ring
+    :bind ("M-y" . popup-kill-ring))
 #+end_src
-* tex
+** scroll smooth
 #+begin_src emacs-lisp
-  (use-package auctex
-    :init (setq TeX-clean-confirm nil
-                TeX-engine 'xetex
-                TeX-fold-auto t
-                TeX-source-correlate-mode t
-                TeX-source-correlate-start-server t
-                TeX-view-evince-keep-focus t
-                TeX-view-program-selection '(((output-dvi has-no-display-manager) "dvi2tty")
-                                             ((output-dvi style-pstricks) "dvips and gv")
-                                             (output-dvi "xdvi")
-                                             (output-pdf "Zathura")
-                                             (output-html "xdg-open")
-                                             )
-                )
-  )
-
-  (use-package cdlatex
-    :init (setq cdlatex-command-alist '(("i" "" "$?$" cdlatex-position-cursor nil t nil)
-                                        ("o" "" "\\[\n?\n\\]" cdlatex-position-cursor nil t nil)
-                                        )
-                cdlatex-math-modify-alist (quote ((104 "\\mathbb" "" t nil nil)))
-                cdlatex-math-symbol-alist (quote ((99 ("\\cdot" "\\cdots"))))
-                cdlatex-paired-parens "[{("
-                )
-
-    )
-  (use-package magic-latex-buffer
-    :init (setq magic-latex-enable-block-highlight nil
-                magic-latex-enable-suscript        t
-                magic-latex-enable-pretty-symbols  t
-                magic-latex-enable-block-align     nil
-                magic-latex-enable-inline-image    nil
-                magic-latex-enable-minibuffer-echo t
-                )
-    )
-
-  (mapc (lambda (mode)
-    (add-hook 'LaTeX-mode-hook mode))
-    (list 'turn-on-cdlatex
-          'reftex-mode
-          'outline-minor-mode
-          'auto-fill-mode
-          'prettify-symbols-mode
-          'magic-latex-buffer
-          ; 'flyspell-mode
-          'TeX-fold-mode t))
-
-
-
-
-  ;; (use-package mathpix.el
-  ;;   :straight (:host github :repo "jethrokuan/mathpix.el")
-  ;;   :custom ((mathpix-app-id "app-id")
-  ;;            (mathpix-app-key "app-key"))
-  ;;   :bind
-  ;;   ("C-x m" . mathpix-screenshot))
+(use-package good-scroll
+  :ensure t
+  :init (good-scroll-mode))
 #+end_src
-* paren
+** Text Performance
+*** pretty
+#+begin_src emacs-lisp
+  (global-prettify-symbols-mode 1)
+  (defun add-pretty-lambda ()
+    "Make some word or string show as pretty Unicode symbols.  See https://unicodelookup.com for more."
+    (setq prettify-symbols-alist
+          '(("lambda" . 955)
+            ("delta" . 120517)
+            ("epsilon" . 120518)
+            ("->" . 8594)
+            ("<=" . 8804)
+            (">=" . 8805))))
+  (add-hook 'prog-mode-hook 'add-pretty-lambda)
+  (add-hook 'org-mode-hook 'add-pretty-lambda)
+#+end_src
+*** paren
 #+begin_src emacs-lisp
   ;; 括号设置
 
@@ -443,14 +500,277 @@ https://github.com/quelpa/quelpa-use-package
     :init
     (setq rainbow-delimiters-max-face-count 6)
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode) ;彩色括号
-    (add-hook 'prog-mode-hook #'show-paren-mode)	  ;高亮显示括号
+    (add-hook 'prog-mode-hook #'show-paren-mode)    ;高亮显示括号
     (add-hook 'prog-mode-hook #'electric-pair-mode) ;括号自动补全
     )
   (setq electric-pair-pairs '((?\" . ?\")
                               (?\( . ?\))
                               (?\{ . ?\})))
 #+end_src
-* program
+*** WhiteSpace
+
+#+begin_src emacs-lisp
+  (use-package whitespace
+    :ensure nil
+    :hook (after-init . global-whitespace-mode) ;; 注意，这里是全局打开
+    :config
+    ;; Don't use different background for tabs.
+    (face-spec-set 'whitespace-tab
+                   '((t :background unspecified)))
+
+    ;; Only use background and underline for long lines, so we can still have
+    ;; syntax highlight.
+
+    ;; For some reason use face-defface-spec as spec-type doesn't work.  My guess
+    ;; is it's due to the variables with the same name as the faces in
+    ;; whitespace.el.  Anyway, we have to manually set some attribute to
+    ;; unspecified here.
+    (face-spec-set 'whitespace-line
+                   '((((background light))
+                      :background "#d8d8d8" :foreground unspecified
+                      :underline t :weight unspecified)
+                     (t
+                      :background "#404040" :foreground unspecified
+                      :underline t :weight unspecified)))
+
+    ;; Use softer visual cue for space before tabs.
+    (face-spec-set 'whitespace-space-before-tab
+                   '((((background light))
+                      :background "#d8d8d8" :foreground "#de4da1")
+                     (t
+                      :inherit warning
+                      :background "#404040" :foreground "#ee6aa7")))
+
+    (setq
+     whitespace-line-column nil
+     whitespace-style
+     '(face             ; visualize things below:
+       empty            ; empty lines at beginning/end of buffer
+       lines-tail       ; lines go beyond `fill-column'
+       space-before-tab ; spaces before tab
+       trailing         ; trailing blanks
+       tabs             ; tabs (show by face)
+       tab-mark         ; tabs (show by symbol)
+       )))
+#+end_src
+
+** Buffer Manage
+#+begin_src emacs-lisp
+  (use-package ibuffer
+    :ensure nil
+    :bind ("C-x C-b" . ibuffer)
+    :init
+    (use-package ibuffer-vc
+      :commands (ibuffer-vc-set-filter-groups-by-vc-root)
+      :custom
+      (ibuffer-vc-skip-if-remote 'nil))
+    :custom
+    (ibuffer-formats
+     '((mark modified read-only locked " "
+             (name 35 35 :left :elide)
+             " "
+             (size 9 -1 :right)
+             " "
+             (mode 16 16 :left :elide)
+             " " filename-and-process)
+       (mark " "
+             (name 16 -1)
+             " " filename))))
+#+end_src
+
+** Mindows Manage
+*** jump to to other window
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :bind (("M-o" . 'ace-window)))
+
+#+end_src
+*** popwin
+[[https://github.com/emacsorphanage/popwin][popwin.el README]]
+#+begin_src emacs-lisp
+  (use-package popwin)
+
+  (popwin-mode 1)
+
+#+end_src
+*** avy position jump
+#+begin_src emacs-lisp
+  (use-package avy
+    :init
+    :bind ("C-:" . avy-goto-char)
+    ;; ("" . avy-goto-char-2)
+    ;("" . avy-goto-line)
+    ;; ("" . avy-goto-word-1)
+    )
+#+end_src
+* Auto Company
+#+begin_src emacs-lisp
+  ;; Settings for company
+  (use-package company
+    ;; The next line cause lsp-mode bugs when complete functions
+    ;; (push '(company-semantic :with company-yasnippet) company-backends)
+    :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
+    :hook (prog-mode . company-mode)   ;只在编程语言模式下启用
+    :config (setq company-dabbrev-code-everywhere t ;任何地方都自动补全
+                  company-dabbrev-code-modes t
+                  company-dabbrev-code-other-buffers 'all
+                  company-dabbrev-downcase nil
+                  company-dabbrev-ignore-case t
+                  company-dabbrev-other-buffers 'all
+                  company-require-match nil
+                  company-minimum-prefix-length 2
+                  company-show-numbers t
+                  company-tooltip-limit 20
+                  company-idle-delay 0
+                  company-echo-delay 0
+                  company-tooltip-offset-display 'scrollbar
+                  company-begin-commands '(self-insert-command)))
+
+
+  (use-package yasnippet
+    :init
+    (yas-global-mode 1)
+    (use-package yasnippet-snippets)
+    )
+
+
+  (use-package company-box
+    :ensure t
+    :hook (company-mode . company-box-mode))
+  (use-package company-tabnine
+    :ensure t
+    :config
+    (add-to-list 'company-backends #'company-tabnine))
+
+#+end_src
+* Input Method
+#+begin_src emacs-lisp
+
+  (if (or *is-linux* *is-wsl*)
+      (use-package rime
+        :custom
+        (default-input-method "rime")
+        ;; (rime-librime-root "~/.emacs.d/librime/build")
+        )
+       (message "needn't rime")
+    )
+
+  ;; (setq module-file-suffix ".so")
+  ;; 用户RIME 配置文件所在地
+  (setq rime-user-data-dir "~/.config/fcitx/rime")
+
+  ;; 设置显示方式
+  ;; nil	        不展示
+  ;; minibuffer	在minibuffer中展示， 推荐使用的方式
+  ;; message	        直接使用 message 输出，兼容控制 minibuffer 内容的插件
+  ;; popup	        使用 popup.el 展示跟随的候选
+  ;; posframe	使用 posframe 展示跟随的候选，在不可用的时候会用 popup
+
+  (setq rime-show-candidate 'posframe)
+
+  ;; 颜色方案
+
+  ;; Face                    说明
+  ;; rime-default-face	默认的前景色和背景色（仅posframe）
+  ;; rime-code-face	        编码的颜色
+  ;; rime-candidate-num-face	候选序号颜色
+  ;; rime-comment-face	编码提示颜色
+
+  (setq rime-posframe-properties
+        (list :background-color "#333333"
+              :foreground-color "#dcdccc"
+              :internal-border-width 10))
+  ;; 发送给RIME 的快捷键
+  (setq rime-translate-keybindings
+        '("C-f" "C-b" "C-n" "C-p" "C-g" "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>" "shift-l" ))
+
+
+  ;; 设置横版显示 候选
+  (setq rime-posframe-style 'horizontal)
+  ;; 设置 RIME 分隔符
+  (setq rime-cursor " | ") 
+  ;; 设置 RIME 上屏显示编码 
+  (setq rime-show-preedit 'inline)
+
+
+
+  ;; 特定的场景下需要自动使用英文，若断言有一个非真，则自动进入英文模式
+  (setq rime-disable-predicates
+        '(
+          ;; rime-predicate-after-alphabet-char-p
+          ;; 在文字符串之后（必须为以字母开头的英文字符串）
+          rime-predicate-after-ascii-char-p
+          ;; 任意英文字符后
+          ;; rime-predicate-prog-in-code-p
+          ;; 在 prog-mode 和 conf-mode 中除了注释和引号内字符串之外的区域
+          rime-predicate-in-code-string-p
+          ;; 在代码的字符串中，不含注释的字符串。
+          rime-predicate-evil-mode-p
+          ;; 在 evil-mode 的非编辑状态下
+          rime-predicate-ace-window-p
+          ;; 激活 ace-window-mode
+          rime-predicate-hydra-p
+          ;; 如果激活了一个 hydra keymap
+          ;; rime-predicate-current-input-punctuation-p
+          ;; 当要输入的是符号时
+          rime-predicate-punctuation-after-space-cc-p
+          ;; 当要在中文字符且有空格之后输入符号时
+          rime-predicate-punctuation-after-ascii-p
+          ;; 当要在任意英文字符之后输入符号时
+          rime-predicate-punctuation-line-begin-p
+          ;; 在行首要输入符号时
+          ;; rime-predicate-space-after-ascii-p
+          ;; 在任意英文字符且有空格之后
+          rime-predicate-space-after-cc-p
+          ;; 在中文字符且有空格之后
+          rime-predicate-current-uppercase-letter-p
+          ;; 将要输入的为大写字母时
+          rime-predicate-tex-math-or-command-p
+          ;; 在 (La)TeX 数学环境中或者输入 (La)TeX 命令时
+          ))
+  ;; 临时英文模式
+  ;; emacs 中指定临时切换inline ascii模式新
+  (setq rime-inline-ascii-trigger 'shift-l)
+  ;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
+
+
+  ;; 临时英文中阻止标点直接上屏
+  (setq rime-inline-ascii-holder ?x)
+
+  ;; 临时强制使用强制中文模式
+  ;; (add-hook 'rime-mode-hook
+  ;;           '(lambda ()
+  ;;              (define-key rime-mode-map (kbd"C-`") 'rime-force-enable)
+  ;;              (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)))
+  ;; 呼出方案选单
+  (global-set-key (kbd "C-`") 'rime-send-keybinding)
+
+#+end_src
+
+* Version Control
+#+begin_src emacs-lisp
+  (use-package magit)
+#+end_src
+* Project Manage
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (projectile-mode +1))
+#+end_src
+* Program Mode
+** define jump
+#+begin_src emacs-lisp
+  (use-package dumb-jump
+    :bind
+    (:map prog-mode-map
+          (("C-c C-o" . dumb-jump-go-other-window)
+           ("C-c C-j" . dumb-jump-go)
+           ("C-c C-i" . dumb-jump-go-prompt)))
+    :custom (dumb-jump-selector 'ivy))
+#+end_src
 #+begin_src emacs-lisp
 
   ;;; Code:
@@ -480,7 +800,26 @@ https://github.com/quelpa/quelpa-use-package
 
 
 #+end_src
-* c/c++
+** Fold Code Block
+#+begin_src emacs-lisp
+  (use-package hideshow
+    :ensure nil
+    :diminish hs-minor-mode
+    :hook (prog-mode . hs-minor-mode))
+
+  ;; 这里额外启用了 :box t 属性使得提示更加明显
+  (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
+
+  (defun hideshow-folded-overlay-fn (ov)
+      (when (eq 'code (overlay-get ov 'hs))
+        (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
+               (info (format " ... #%d " nlines)))
+          (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
+
+  (setq hs-set-up-overlay 'hideshow-folded-overlay-fn)
+
+#+end_src
+** c/c++
 #+begin_src emacs-lisp
   (use-package smart-compile
     :config
@@ -535,7 +874,7 @@ https://github.com/quelpa/quelpa-use-package
     (add-hook 'before-save-hook #'eglot-format-buffer))
     :hook
     ((c-mode c++-mode) . eglot-ensure)
-    ((c-mode c++-mode) . C-save-hooks)
+    ;; ((c-mode c++-mode) . C-save-hooks)
     )
 
   ;; (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
@@ -555,8 +894,8 @@ https://github.com/quelpa/quelpa-use-package
 
 #+RESULTS:
 | C-save-hooks | eglot-ensure |
-
-* org-mode
+* Org Mode
+** org-mode
 #+begin_src emacs-lisp
   (setq left-margin-width 2)
   (setq right-margin-width 2)
@@ -583,6 +922,7 @@ https://github.com/quelpa/quelpa-use-package
 
   (server-start)
   (require 'org-protocol)
+  (require 'org-roam-protocol)
 
 
   (add-hook 'org-mode-hook
@@ -728,8 +1068,7 @@ https://github.com/quelpa/quelpa-use-package
 
   (setq org-latex-create-formula-image-program 'imagemagick)
 #+end_src
-
-** 插入并显示图片
+** display picture
 https://www.dazhuanlan.com/aq370882/topics/1270842
 https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.html
 #+begin_src emacs-lisp
@@ -776,7 +1115,7 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
 #+begin_src emacs-lisp
 
 #+end_src
-* org-roam
+** org-roam
 #+begin_src emacs-lisp
   ;; (add-hook 'after-init-hook 'org-roam-mode)
   ;; 第一次运行时，手动构建缓存
@@ -835,209 +1174,66 @@ https://everet.org/screenshot-and-image-paste-in-emacs-when-writing-markdown.htm
   ;; (org-roam-server-mode)
 #+end_src
 
-* input
+* Typography
 #+begin_src emacs-lisp
+  (use-package auctex
+    :init (setq TeX-clean-confirm nil
+                TeX-engine 'xetex
+                TeX-fold-auto t
+                TeX-source-correlate-mode t
+                TeX-source-correlate-start-server t
+                TeX-view-evince-keep-focus t
+                TeX-view-program-selection '(((output-dvi has-no-display-manager) "dvi2tty")
+                                             ((output-dvi style-pstricks) "dvips and gv")
+                                             (output-dvi "xdvi")
+                                             (output-pdf "Zathura")
+                                             (output-html "xdg-open")
+                                             )
+                )
+  )
 
-  (if (or *is-linux* *is-wsl*)
-      (use-package rime
-        :custom
-        (default-input-method "rime")
-        ;; (rime-librime-root "~/.emacs.d/librime/build")
-        )
-       (message "needn't rime")
+  (use-package cdlatex
+    :init (setq cdlatex-command-alist '(("i" "" "$?$" cdlatex-position-cursor nil t nil)
+                                        ("o" "" "\\[\n?\n\\]" cdlatex-position-cursor nil t nil)
+                                        )
+                cdlatex-math-modify-alist (quote ((104 "\\mathbb" "" t nil nil)))
+                cdlatex-math-symbol-alist (quote ((99 ("\\cdot" "\\cdots"))))
+                cdlatex-paired-parens "[{("
+                )
+
+    )
+  (use-package magic-latex-buffer
+    :init (setq magic-latex-enable-block-highlight nil
+                magic-latex-enable-suscript        t
+                magic-latex-enable-pretty-symbols  t
+                magic-latex-enable-block-align     nil
+                magic-latex-enable-inline-image    nil
+                magic-latex-enable-minibuffer-echo t
+                )
     )
 
-  ;; (setq module-file-suffix ".so")
-  ;; 用户RIME 配置文件所在地
-  (setq rime-user-data-dir "~/.config/fcitx/rime")
-
-  ;; 设置显示方式
-  ;; nil	        不展示
-  ;; minibuffer	在minibuffer中展示， 推荐使用的方式
-  ;; message	        直接使用 message 输出，兼容控制 minibuffer 内容的插件
-  ;; popup	        使用 popup.el 展示跟随的候选
-  ;; posframe	使用 posframe 展示跟随的候选，在不可用的时候会用 popup
-
-  (setq rime-show-candidate 'posframe)
-
-  ;; 颜色方案
-
-  ;; Face                    说明
-  ;; rime-default-face	默认的前景色和背景色（仅posframe）
-  ;; rime-code-face	        编码的颜色
-  ;; rime-candidate-num-face	候选序号颜色
-  ;; rime-comment-face	编码提示颜色
-
-  (setq rime-posframe-properties
-        (list :background-color "#333333"
-              :foreground-color "#dcdccc"
-              :internal-border-width 10))
-  ;; 发送给RIME 的快捷键
-  (setq rime-translate-keybindings
-        '("C-f" "C-b" "C-n" "C-p" "C-g" "<left>" "<right>" "<up>" "<down>" "<prior>" "<next>" "<delete>" "shift-l" ))
-
-
-  ;; 设置横版显示 候选
-  (setq rime-posframe-style 'horizontal)
-  ;; 设置 RIME 分隔符
-  (setq rime-cursor " | ") 
-  ;; 设置 RIME 上屏显示编码 
-  (setq rime-show-preedit 'inline)
+  (mapc (lambda (mode)
+    (add-hook 'LaTeX-mode-hook mode))
+    (list 'turn-on-cdlatex
+          'reftex-mode
+          'outline-minor-mode
+          'auto-fill-mode
+          'prettify-symbols-mode
+          'magic-latex-buffer
+          ; 'flyspell-mode
+          'TeX-fold-mode t))
 
 
 
-  ;; 特定的场景下需要自动使用英文，若断言有一个非真，则自动进入英文模式
-  (setq rime-disable-predicates
-        '(
-          ;; rime-predicate-after-alphabet-char-p
-          ;; 在文字符串之后（必须为以字母开头的英文字符串）
-          rime-predicate-after-ascii-char-p
-          ;; 任意英文字符后
-          ;; rime-predicate-prog-in-code-p
-          ;; 在 prog-mode 和 conf-mode 中除了注释和引号内字符串之外的区域
-          rime-predicate-in-code-string-p
-          ;; 在代码的字符串中，不含注释的字符串。
-          rime-predicate-evil-mode-p
-          ;; 在 evil-mode 的非编辑状态下
-          rime-predicate-ace-window-p
-          ;; 激活 ace-window-mode
-          rime-predicate-hydra-p
-          ;; 如果激活了一个 hydra keymap
-          ;; rime-predicate-current-input-punctuation-p
-          ;; 当要输入的是符号时
-          rime-predicate-punctuation-after-space-cc-p
-          ;; 当要在中文字符且有空格之后输入符号时
-          rime-predicate-punctuation-after-ascii-p
-          ;; 当要在任意英文字符之后输入符号时
-          rime-predicate-punctuation-line-begin-p
-          ;; 在行首要输入符号时
-          ;; rime-predicate-space-after-ascii-p
-          ;; 在任意英文字符且有空格之后
-          rime-predicate-space-after-cc-p
-          ;; 在中文字符且有空格之后
-          rime-predicate-current-uppercase-letter-p
-          ;; 将要输入的为大写字母时
-          rime-predicate-tex-math-or-command-p
-          ;; 在 (La)TeX 数学环境中或者输入 (La)TeX 命令时
-          ))
-  ;; 临时英文模式
-  ;; emacs 中指定临时切换inline ascii模式新
-  (setq rime-inline-ascii-trigger 'shift-l)
-  ;; (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)
 
-
-  ;; 临时英文中阻止标点直接上屏
-  (setq rime-inline-ascii-holder ?x)
-
-  ;; 临时强制使用强制中文模式
-  (add-hook 'rime-mode-hook
-            '(lambda ()
-               (define-key rime-mode-map (kbd"C-`") 'rime-force-enable)
-               (define-key rime-active-mode-map (kbd "M-j") 'rime-inline-ascii)))
-
-
+  ;; (use-package mathpix.el
+  ;;   :straight (:host github :repo "jethrokuan/mathpix.el")
+  ;;   :custom ((mathpix-app-id "app-id")
+  ;;            (mathpix-app-key "app-key"))
+  ;;   :bind
+  ;;   ("C-x m" . mathpix-screenshot))
 #+end_src
-
-* project manage
-#+begin_src emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
-#+end_src
-* ui
-#+begin_src emacs-lisp
-  ;; (setq default-frame-alist
-  ;;       (append '((height . 50) (width . 100)) default-frame-alist))
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-  ;; (set-frame-position (selected-frame) 0 0)
-  ;; (set-frame-width (selected-frame) 110)
-  ;; (set-frame-height (selected-frame) 100)
-
-  ;;外观配置
-  (setq inhibit-startup-screen t)
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (set-default 'cursor-type 'bar)
-  ;;显示行号
-  (global-display-line-numbers-mode 1)
-
-  (setq display-line-numbers-width-start t)
-
-  ;; 侧边栏
-  ;; (use-package treemacs)
-  ;; (treemacs)
-  ;; 行间距
-
-  (setq-default line-spacing 0.5)
-
-
-
-
-  ;;主题
-  ;; (use-package flatui-theme
-  ;; :init (load-theme 'flatui t))
-
-  (use-package doom-themes
-    :init (load-theme 'doom-acario-dark t))
-
-
-  (use-package smart-mode-line
-    :init
-    (setq sml/no-confirm-load-theme t
-          sml/theme 'respectful)
-    (sml/setup))
-
-
-  (use-package emacs
-    :when (display-graphic-p)
-    :config
-    ;; (setq default-frame-alist '((width . 150) (height . 35)))
-                                          ;(set-frame-parameter nil 'fullscreen 'maximized)
-    (when *is-windows*
-      (set-face-attribute 'default nil :font "Consolas 15")
-      (dolist (charset '(kana han symbol cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
-    (when *is-mac*
-      (set-face-attribute 'default nil :font "SF Mono 15")
-      (dolist (charset '(kana han symbol cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
-    (when *is-linux*
-      (set-face-attribute 'default nil :font "Consolas 15")
-      (dolist (charset '(kana han symbol cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font) charset (font-spec :family "华文细黑" :size 20))))
-    )
-
-
-  ;; (use-package hl-line
-  ;;   :ensure nil
-  ;;   :hook (after-init . global-hl-line-mode))
-
-
-#+end_src
-* windows manage
-** jump to to other window
-#+begin_src emacs-lisp
-  (use-package ace-window
-    :bind (("M-o" . 'ace-window)))
-
-#+end_src
-** popwin
-[[https://github.com/emacsorphanage/popwin][popwin.el README]]
-#+begin_src emacs-lisp
-  (use-package popwin)
-
-  (popwin-mode 1)
-
-#+end_src
-* projectile
-[[https://phenix3443.github.io/notebook/emacs/modes/projectile-mode.html#orgd7c12f6][Table of Contents]]
-** 
-* words
+* EngLish
 ** ???
 #+begin_src emacs-lisp
 (defvar webster-url "http://www.m-w.com/cgi-bin/dictionary?book=Dictionary&va=")
